@@ -9,7 +9,7 @@ export function CategoryGrid({ categories, variant }: { categories: Category[]; 
     <ul
       className={
         strip
-          ? "-mx-4 flex snap-x gap-3 overflow-x-auto px-4 pt-1 pb-3 [scrollbar-width:none] md:mx-0 md:grid md:grid-cols-8 md:overflow-visible md:px-0"
+          ? "scroll-hint -mx-4 flex snap-x gap-3 overflow-x-auto px-4 pt-1 pb-3 [scrollbar-width:none] md:mx-0 md:grid md:grid-cols-8 md:overflow-visible md:px-0"
           : "grid grid-cols-2 gap-3 sm:grid-cols-4"
       }
     >

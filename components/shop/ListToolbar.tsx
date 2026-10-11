@@ -16,7 +16,7 @@ export function ListToolbar({ basePath, q, filter, sort }: { basePath: string; q
   return (
     <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
       <nav aria-label="Filtros">
-        <ul className="-mx-4 flex gap-2 overflow-x-auto px-4 py-1 [scrollbar-width:none] md:mx-0 md:px-0">
+        <ul className="scroll-hint -mx-4 flex gap-2 overflow-x-auto px-4 py-1 [scrollbar-width:none] md:mx-0 md:px-0">
           {chips.map((c) => (
             <li key={c.label}>
               <Chip href={listHref(basePath, { ...params, f: c.value })} active={filter === c.value}>

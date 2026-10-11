@@ -14,14 +14,16 @@ type Props = {
   category?: Category
   sizes: string
   priority?: boolean
-  /** Miniatura: só o ícone, sem o nome. */
+  /** Miniatura: ícone pequeno. */
   compact?: boolean
+  /** Mostra o nome da categoria embaixo do ícone (só na página do produto; nos cards repetiria o contexto). */
+  label?: boolean
   className?: string
 }
 
-// Foto real quando existir; senão, placeholder na cor da categoria com ícone + nome da categoria (nunca caixa cinza).
+// Foto real quando existir; senão, placeholder na cor da categoria com ícone (nunca caixa cinza).
 // O nome do produto vai no aria-label; visualmente ele já aparece logo abaixo, no card.
-export function ProductImage({ name, image, category, sizes, priority, compact, className = "" }: Props) {
+export function ProductImage({ name, image, category, sizes, priority, compact, label, className = "" }: Props) {
   const frame = `relative aspect-square w-full overflow-hidden ${className}`
   if (image) {
     return (
@@ -37,7 +39,7 @@ export function ProductImage({ name, image, category, sizes, priority, compact, 
       className={`${frame} flex flex-col items-center justify-center gap-3 p-4 text-center ${tintBg[category?.tint ?? "sky"]}`}
     >
       {category && <CategoryIcon name={category.icon} className={compact ? "size-8" : "size-14 md:size-16"} />}
-      {!compact && category && (
+      {label && category && (
         <span aria-hidden className="font-display text-xs font-bold tracking-wide text-ink/70 uppercase">
           {category.name}
         </span>

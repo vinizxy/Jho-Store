@@ -9,11 +9,14 @@ import { catalog } from "@/lib/catalog"
 import { PIX_DISCOUNT } from "@/lib/config"
 
 export default async function Home() {
-  const [categories, deals, best] = await Promise.all([
+  const [categories, deals, bestAll] = await Promise.all([
     catalog.listCategories(),
-    catalog.getDeals(8),
-    catalog.getBestSellers(8),
+    catalog.getDeals(4),
+    catalog.getBestSellers(12),
   ])
+  // Um produto aparece uma vez só na home.
+  const shown = new Set(deals.map((p) => p.slug))
+  const best = bestAll.filter((p) => !shown.has(p.slug)).slice(0, 4)
 
   return (
     <>
@@ -25,7 +28,7 @@ export default async function Home() {
               Tudo pra sua casa, <span className="text-sky">sem pesar no bolso.</span>
             </h1>
             <p className="max-w-[40ch] text-lg">Cozinha, ferramentas, eletrônicos, pet e muito mais, com entrega pra todo o Brasil.</p>
-            <Button href="#ofertas" variant="dark">
+            <Button href="/ofertas" variant="dark">
               Ver ofertas do dia
             </Button>
           </div>
@@ -37,19 +40,20 @@ export default async function Home() {
         </div>
       </section>
 
-      <section aria-label="Categorias" className="container-page pt-6 md:pt-10">
+      {/* No desktop a barra preta do header já lista as categorias. */}
+      <section aria-label="Categorias" className="container-page pt-6 md:pt-10 lg:hidden">
         <CategoryGrid categories={categories} variant="strip" />
       </section>
 
-      <Section title="Ofertas do dia" id="ofertas">
+      <Section title="Ofertas do dia" id="ofertas" href="/ofertas" linkLabel="Ver todas as ofertas">
         <ProductGrid products={deals} categories={categories} priorityCount={2} />
       </Section>
 
-      <TrustBadges />
-
       <Section title="Mais vendidos" id="mais-vendidos">
-        <ProductGrid products={best} categories={categories} />
+        <ProductGrid products={best} categories={categories} hideBadge="mais-vendido" />
       </Section>
+
+      <TrustBadges />
     </>
   )
 }

@@ -54,7 +54,7 @@ export function CartDrawer({ categories }: { categories: Category[] }) {
             title="Seu carrinho está vazio"
             text="Que tal dar uma olhada nas ofertas do dia?"
             action={
-              <Button href="/#ofertas" onClick={closeDrawer}>
+              <Button href="/ofertas" onClick={closeDrawer}>
                 Ver ofertas
               </Button>
             }

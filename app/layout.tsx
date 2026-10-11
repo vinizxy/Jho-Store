@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next"
 import { Fredoka, Inter } from "next/font/google"
 import { BottomNav } from "@/components/shop/BottomNav"
 import { CartDrawer } from "@/components/shop/CartDrawer"
+import { ChromeGate } from "@/components/shop/ChromeGate"
 import { Footer } from "@/components/shop/Footer"
 import { Header } from "@/components/shop/Header"
 import { CartProvider } from "@/lib/cart/CartProvider"
@@ -39,8 +40,10 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
           <main id="conteudo" className="flex-1 pb-20 md:pb-0">
             {children}
           </main>
-          <Footer categories={categories} />
-          <BottomNav />
+          <ChromeGate>
+            <Footer categories={categories} />
+            <BottomNav />
+          </ChromeGate>
           <CartDrawer categories={categories} />
         </CartProvider>
       </body>

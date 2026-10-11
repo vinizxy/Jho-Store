@@ -17,7 +17,7 @@ export function TrustBadges() {
               <Icon aria-hidden className="size-7" strokeWidth={2} />
             </span>
             <div>
-              <h2 className="font-display text-lg font-bold">{title}</h2>
+              <p className="font-display text-lg font-bold">{title}</p>
               <p className="text-sm text-muted">{text}</p>
             </div>
           </li>

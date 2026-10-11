@@ -12,14 +12,19 @@ export function ProductCard({
   category,
   priority,
   titleAs: Title = "h3",
+  hideBadge,
 }: {
   product: Product
   category?: Category
   priority?: boolean
   /** h2 quando a grade vem logo abaixo do h1 da página (ordem de títulos). */
   titleAs?: HeadingTag
+  /** Selo redundante no contexto (ex.: "Mais vendido" dentro de "Mais vendidos"). */
+  hideBadge?: Product["badge"]
 }) {
   const off = product.compareAtCents ? discountPercent(product.priceCents, product.compareAtCents) : 0
+  // No máximo 1 selo por card; desconto tem prioridade.
+  const badge = off > 0 ? null : product.badge && product.badge !== hideBadge && product.badge !== "oferta" ? product.badge : null
   return (
     <Link
       href={`/p/${product.slug}`}
@@ -33,9 +38,9 @@ export function ProductCard({
           sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw"
           priority={priority}
         />
-        <div className="absolute top-2 left-2 flex flex-wrap gap-1.5">
+        <div className="absolute top-2 left-2">
           {off > 0 && <Badge kind="oferta">-{off}%</Badge>}
-          {product.badge && product.badge !== "oferta" && <Badge kind={product.badge} />}
+          {badge && <Badge kind={badge} />}
         </div>
       </div>
       <div className="flex flex-1 flex-col gap-2 p-3 md:p-4">

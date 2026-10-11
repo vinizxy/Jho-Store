@@ -21,6 +21,18 @@
     outline: 3px solid var(--focus, var(--color-blue));
     outline-offset: 2px;
   }
+  /* Superfícies do navegador também na paleta da marca. */
+  ::selection {
+    background: var(--color-sky);
+    color: var(--color-ink);
+  }
+  input,
+  textarea {
+    caret-color: var(--color-blue);
+  }
+  :root {
+    accent-color: var(--color-blue);
+  }
   h1,
   h2,
   h3 {
@@ -61,6 +73,14 @@
 @starting-style {
   .cart-drawer[open]::backdrop {
     opacity: 0;
+  }
+}
+
+/* Fileira que rola de lado no celular: esmaece a borda direita para mostrar que tem mais. */
+@utility scroll-hint {
+  mask-image: linear-gradient(to right, black calc(100% - 2.5rem), transparent);
+  @variant md {
+    mask-image: none;
   }
 }
 

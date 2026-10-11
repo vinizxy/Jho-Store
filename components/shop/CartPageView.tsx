@@ -20,7 +20,7 @@ export function CartPageView({ categories }: { categories: Category[] }) {
         as="h1"
         title="Seu carrinho está vazio"
         text="Que tal dar uma olhada nas ofertas do dia?"
-        action={<Button href="/#ofertas">Ver ofertas</Button>}
+        action={<Button href="/ofertas">Ver ofertas</Button>}
       />
     )
   }

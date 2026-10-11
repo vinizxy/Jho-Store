@@ -4,7 +4,7 @@ test("compra em 3 toques: home → produto → carrinho → checkout", async ({ 
   await page.goto("/")
 
   // 1. produto (primeiro card das ofertas)
-  await page.locator("#ofertas a").first().click()
+  await page.locator("#ofertas li a").first().click()
   await expect(page).toHaveURL(/\/p\//)
   const name = await page.getByRole("heading", { level: 1 }).textContent()
   expect(name).toBeTruthy()
@@ -15,6 +15,8 @@ test("compra em 3 toques: home → produto → carrinho → checkout", async ({ 
   await expect(drawer).toBeVisible()
   await expect(drawer.getByText("Adicionado ao carrinho")).toBeVisible()
   await expect(drawer.getByRole("link", { name: name! })).toBeVisible()
+  // o preço do carrinho é o mesmo Pix da página do produto
+  await expect(drawer.getByText("no Pix").first()).toBeVisible()
 
   // 3. finalizar
   await drawer.getByRole("link", { name: "Finalizar compra" }).click()
@@ -24,6 +26,10 @@ test("compra em 3 toques: home → produto → carrinho → checkout", async ({ 
   await page.getByRole("button", { name: "Confirmar pedido" }).click()
   await expect(page.getByLabel("Nome completo")).toBeFocused()
   await expect(page.getByText("Informe seu nome.")).toBeVisible()
+  await expect(page.getByRole("alert").filter({ hasText: "Faltam 9 informações" })).toBeVisible()
+  // checkout enxuto: sem rodapé e navegação da loja, com volta ao carrinho
+  await expect(page.getByRole("contentinfo")).toHaveCount(0)
+  await expect(page.getByRole("link", { name: "Voltar ao carrinho" })).toBeVisible()
 
   await page.getByLabel("Nome completo").fill("Joana Ribeiro")
   await page.getByLabel("E-mail").fill("joana@email.com")

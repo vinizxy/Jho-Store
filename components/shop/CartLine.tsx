@@ -3,7 +3,7 @@
 import { Trash2 } from "lucide-react"
 import Link from "next/link"
 import { useCart } from "@/lib/cart/CartProvider"
-import { formatBRL } from "@/lib/cart/pricing"
+import { formatBRL, pixPrice } from "@/lib/cart/pricing"
 import type { CartItem } from "@/lib/cart/reducer"
 import type { Category } from "@/lib/catalog/types"
 import { ProductImage } from "./ProductImage"
@@ -31,9 +31,15 @@ export function CartLine({ item, category, onNavigate }: { item: CartItem; categ
             <Trash2 aria-hidden className="size-5" />
           </button>
         </div>
-        <div className="flex items-center justify-between gap-2">
+        <div className="flex flex-wrap items-start justify-between gap-2">
           <QtyStepper value={item.qty} onChange={(q) => setQty(item.slug, q)} label={item.name} />
-          <p className="font-bold tabular-nums">{formatBRL(item.priceCents * item.qty)}</p>
+          {/* Pix em destaque, como no card e no produto: o preço não "sobe" ao entrar no carrinho. */}
+          <p className="ml-auto text-right leading-tight whitespace-nowrap">
+            <span className="block font-display font-bold text-blue tabular-nums">
+              {formatBRL(pixPrice(item.priceCents * item.qty))} <span className="font-sans text-xs font-semibold text-ink">no Pix</span>
+            </span>
+            <span className="text-xs text-muted tabular-nums">{formatBRL(item.priceCents * item.qty)} no cartão</span>
+          </p>
         </div>
       </div>
     </li>

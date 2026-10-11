@@ -13,14 +13,17 @@ export function Price({ cents, compareAtCents, size = "sm" }: Props) {
           {formatBRL(compareAtCents)}
         </s>
       )}
-      <p className={`font-display font-bold text-blue ${lg ? "text-4xl" : "text-xl"}`}>
+      {/* flex-wrap: em telas de 320px o "no Pix" desce em vez de estourar o card */}
+      <p className={`flex flex-wrap items-baseline gap-x-1 font-display font-bold text-blue ${lg ? "text-4xl" : "text-xl"}`}>
         {formatBRL(pixPrice(cents))}
-        <span className={`ml-1 font-sans font-semibold text-ink ${lg ? "text-base" : "text-xs"}`}>no Pix</span>
+        <span className={`font-sans font-semibold text-ink ${lg ? "text-base" : "text-xs"}`}>no Pix</span>
       </p>
       <p className={`text-muted ${lg ? "text-base" : "text-xs"}`}>
         {n === 1
           ? `ou ${formatBRL(cents)} no cartão`
-          : `ou ${formatBRL(cents)} em até ${n}x de ${formatBRL(valueCents)} sem juros`}
+          : lg
+            ? `ou ${formatBRL(cents)} em até ${n}x de ${formatBRL(valueCents)} sem juros`
+            : `ou ${n}x de ${formatBRL(valueCents)} sem juros`}
       </p>
     </div>
   )

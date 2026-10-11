@@ -1,4 +1,5 @@
 # Jho Utilidades — Vitrine v1 (Subprojeto 1) — Design
+> **Atualização (2026-10-11):** a marca virou **Jho Store**, o tema passou a ser **azul e preto** (roupas do mascote oficial) e a fonte de títulos é **Fredoka**. As seções de cores e fontes abaixo descrevem o plano original; a fonte da verdade atual é `styles/tokens.css` + a seção "Decisões" do `CLAUDE.md`.
 
 Data: 2026-10-11 · Status: aguardando revisão
 

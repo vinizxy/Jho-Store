@@ -1,6 +1,6 @@
 "use client"
 
-import { CreditCard, QrCode } from "lucide-react"
+import { CircleAlert, CreditCard, QrCode } from "lucide-react"
 import { useRef, useState, type ChangeEvent, type FormEvent, type ReactNode } from "react"
 import { Badge } from "@/components/ui/Badge"
 import { Button } from "@/components/ui/Button"
@@ -32,8 +32,9 @@ const FIELDS: Record<string, FieldDef> = {
   uf: { name: "uf", label: "Estado", required: "Escolha o estado." },
 }
 
+// Erro tem linguagem própria (tracejado + ícone + texto preto), separada do azul de marca/seleção.
 const inputCls =
-  "h-12 w-full rounded-card border-2 border-ink bg-white px-3 text-base aria-invalid:border-blue aria-invalid:bg-tint-blue50 focus-visible:outline-offset-0"
+  "h-12 w-full rounded-card border-2 border-ink bg-white px-3 text-base aria-invalid:border-dashed aria-invalid:bg-paper focus-visible:outline-offset-0"
 
 function message(el: HTMLInputElement | HTMLSelectElement): string {
   const def = FIELDS[el.name]
@@ -48,9 +49,12 @@ function Field({ def, error, children, className = "" }: { def: FieldDef; error?
         {def.label}
       </label>
       {children}
-      <p id={`${def.name}-erro`} className="min-h-0 text-sm font-semibold text-blue empty:hidden">
-        {error}
-      </p>
+      {error && (
+        <p id={`${def.name}-erro`} className="flex items-start gap-1.5 text-sm font-semibold">
+          <CircleAlert aria-hidden className="mt-px size-4 shrink-0" strokeWidth={2.5} />
+          {error}
+        </p>
+      )}
     </div>
   )
 }
@@ -89,12 +93,13 @@ export function CheckoutForm() {
 
   if (items.length === 0) {
     return (
-      <EmptyState as="h1" title="Seu carrinho está vazio" text="Adicione produtos para finalizar a compra." action={<Button href="/#ofertas">Ver ofertas</Button>} />
+      <EmptyState as="h1" title="Seu carrinho está vazio" text="Adicione produtos para finalizar a compra." action={<Button href="/ofertas">Ver ofertas</Button>} />
     )
   }
 
   const card = installments(totals.subtotalCents)
   const total = payment === "pix" ? totals.pixTotalCents : totals.subtotalCents
+  const missing = Object.entries(errors).filter(([, msg]) => msg)
 
   const props = (name: string) => ({
     id: name,
@@ -178,6 +183,36 @@ export function CheckoutForm() {
       <form noValidate onSubmit={onSubmit} className="flex flex-col gap-8">
         <h1 className="text-3xl font-bold md:text-4xl">Finalizar compra</h1>
 
+        {/* Resumo de erros: anunciado ao enviar, com atalho para cada campo. */}
+        <div role="alert" className="empty:hidden">
+          {missing.length > 0 && (
+            <div className="flex gap-3 rounded-card border-2 border-dashed border-ink bg-white p-4">
+              <Mascot pose="avatar" className="size-12 shrink-0 rounded-full" />
+              <div>
+                <p className="font-display text-lg font-bold">
+                  {missing.length === 1 ? "Falta 1 informação" : `Faltam ${missing.length} informações`} para confirmar
+                </p>
+                <ul className="mt-1 flex flex-wrap gap-x-3 gap-y-1 text-sm">
+                  {missing.map(([name]) => (
+                    <li key={name}>
+                      <a
+                        href={`#${name}`}
+                        onClick={(e) => {
+                          e.preventDefault()
+                          document.getElementById(name)?.focus()
+                        }}
+                        className="inline-block py-1 font-semibold underline underline-offset-4"
+                      >
+                        {FIELDS[name].label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          )}
+        </div>
+
         <fieldset className="flex flex-col gap-4">
           <legend className="mb-4 font-display text-xl font-bold">1. Seus dados</legend>
           <Field def={FIELDS.nome} error={errors.nome}>
@@ -256,7 +291,7 @@ export function CheckoutForm() {
               </select>
             </Field>
           </div>
-          <p className="text-sm text-muted">Frete: a calcular. Confirmamos o valor e o prazo pelo WhatsApp.</p>
+          <p className="text-sm text-muted">Frete: a calcular.</p>
         </fieldset>
 
         <fieldset className="flex flex-col gap-3">
@@ -265,7 +300,7 @@ export function CheckoutForm() {
             <span className="flex flex-wrap items-center gap-2 font-semibold">
               Pix <Badge kind="pix">{Math.round(PIX_DISCOUNT * 100)}% off</Badge>
             </span>
-            <span className="text-sm text-muted">Aprovação na hora. Total {formatBRL(totals.pixTotalCents)}</span>
+            <span className="text-sm text-muted">Total com desconto: {formatBRL(totals.pixTotalCents)}</span>
           </PayOption>
           <PayOption value="cartao" checked={payment === "cartao"} onSelect={setPayment} icon={<CreditCard aria-hidden className="size-6" />}>
             <span className="font-semibold">Cartão de crédito</span>
@@ -282,9 +317,19 @@ export function CheckoutForm() {
           <div className="mt-4 flex flex-col gap-3">{summary}</div>
         </details>
 
-        <Button type="submit" className="w-full md:w-auto md:self-start">
-          Confirmar pedido
-        </Button>
+        <div className="flex flex-col gap-4">
+          <div className="flex items-center gap-3 rounded-card bg-tint-sky p-4">
+            <Mascot pose="avatar" className="size-12 shrink-0 rounded-full" />
+            <p className="text-sm">
+              <strong className="font-semibold">Você não paga nada agora.</strong> Confirmamos o frete e o prazo pelo WhatsApp e só depois
+              combinamos o pagamento.
+            </p>
+          </div>
+          <Button type="submit" className="w-full md:w-auto md:self-start">
+            Confirmar pedido · {formatBRL(total)}
+          </Button>
+          <p className="text-xs text-muted">Demonstração: seus dados não saem deste navegador.</p>
+        </div>
       </form>
 
       <aside aria-label="Resumo do pedido" className="hidden flex-col gap-4 rounded-card border-2 border-ink bg-white p-5 shadow-brut md:sticky md:top-32 md:flex">

@@ -28,7 +28,8 @@ export function Footer({ categories }: { categories: Category[] }) {
         </nav>
 
         <div className="flex flex-col gap-3 text-sm">
-          <h2 className="text-base font-bold">Atendimento</h2>
+          {/* Sem WhatsApp configurado não há canal: o título não promete atendimento. */}
+          <h2 className="text-base font-bold">{wa ? "Atendimento" : "Pagamento"}</h2>
           {wa && (
             <a
               href={wa}

@@ -81,6 +81,7 @@ export default async function ProductPage({ params }: PageProps<"/p/[slug]">) {
             category={category ?? undefined}
             sizes="(min-width: 768px) 50vw, 100vw"
             priority
+            label
             className="max-md:aspect-[4/3]"
           />
         </div>

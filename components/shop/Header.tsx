@@ -1,9 +1,11 @@
+import { ChevronLeft } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { Mascot } from "@/components/ui/Mascot"
 import type { Category } from "@/lib/catalog/types"
 import { BRAND } from "@/lib/config"
 import { CartButton } from "./CartButton"
+import { ChromeGate } from "./ChromeGate"
 import { SearchBar } from "./SearchBar"
 
 // Fundo claro: a logo oficial (avatar no celular, para a busca caber).
@@ -34,11 +36,29 @@ export function Header({ categories }: { categories: Category[] }) {
     <header className="sticky top-0 z-30 border-b-2 border-ink bg-white">
       <div className="container-page flex h-[72px] items-center gap-3 md:gap-6">
         <Logo />
-        <SearchBar className="md:max-w-xl" />
-        <div className="ml-auto">
-          <CartButton />
-        </div>
+        <ChromeGate
+          fallback={
+            <Link href="/carrinho" className="ml-auto inline-flex min-h-11 items-center gap-1 text-sm font-semibold text-blue hover:underline">
+              <ChevronLeft aria-hidden className="size-4" />
+              Voltar ao carrinho
+            </Link>
+          }
+        >
+          <SearchBar className="md:max-w-xl" />
+          <div className="ml-auto">
+            <CartButton />
+          </div>
+        </ChromeGate>
       </div>
+      <ChromeGate>
+        <CategoryBar categories={categories} />
+      </ChromeGate>
+    </header>
+  )
+}
+
+function CategoryBar({ categories }: { categories: Category[] }) {
+  return (
       <nav aria-label="Categorias" className="hidden bg-ink text-white lg:block">
         <ul className="container-page flex h-11 items-center gap-7 text-sm font-semibold">
           {categories.map((c) => (
@@ -50,6 +70,5 @@ export function Header({ categories }: { categories: Category[] }) {
           ))}
         </ul>
       </nav>
-    </header>
   )
 }
