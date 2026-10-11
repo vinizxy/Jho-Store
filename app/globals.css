@@ -14,10 +14,11 @@
     }
   }
   body {
-    @apply bg-cream text-ink font-sans antialiased;
+    @apply bg-paper text-ink font-sans antialiased;
   }
+  /* Fundos escuros/azuis trocam --focus para manter o contorno visível (≥ 3:1). */
   :focus-visible {
-    outline: 3px solid var(--color-blue);
+    outline: 3px solid var(--focus, var(--color-blue));
     outline-offset: 2px;
   }
   h1,

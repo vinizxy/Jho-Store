@@ -6,7 +6,7 @@ export const tintBg: Record<Tint, string> = {
   sky: "bg-tint-sky",
   lemon: "bg-tint-lemon",
   blue50: "bg-tint-blue50",
-  creamDark: "bg-tint-cream-dark",
+  slate: "bg-tint-slate",
 }
 
 type Props = {

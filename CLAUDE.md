@@ -13,7 +13,8 @@ Roadmap: 1 vitrine (este) · 2 Supabase · 3 pagamento Mercado Pago Checkout Pro
 Bonito E simples de navegar. Em conflito, simplicidade vence decoração. Compra em ≤ 3 cliques a partir da home. Uma ação primária por tela.
 
 ## Direção visual
-Neo-brutalismo amigável com contenção: borda preta 2px + sombra sólida 4px 4px só em botões, cards, chips, badges e selos. Resto calmo e espaçoso. Cores/sombras/fontes só em `styles/tokens.css` (paleta padrão do Tailwind desligada). Sem vermelho, gradiente, blur, parallax ou carrossel automático. Motion 120–200ms, respeita reduced-motion. Fontes: Bricolage Grotesque (display) + Inter. Mascote só em hero, carrinho vazio, 404, sucesso e avatar.
+Tema **azul e preto, das roupas do mascote** (camiseta azul `#2C5AA0`, bermuda preta `#1A1A1F`), azul-claro da alça da sacola `#93CCF2` como apoio, fundo `#EEF2F8`, amarelo-limão só para Pix/ofertas. Header branco (logo como na arte: "Jho" preto + nome em azul), faixa de categorias, rodapé e barra inferior pretos, hero azul.
+Neo-brutalismo amigável com contenção: borda preta 2px + sombra sólida 4px 4px só em botões, cards, chips, badges e selos. Resto calmo e espaçoso. Cores/sombras/fontes só em `styles/tokens.css` (paleta padrão do Tailwind desligada). Em fundo azul/preto, troque `--focus` para o contorno de foco continuar visível. Sem vermelho, gradiente, blur, parallax ou carrossel automático. Motion 120–200ms, respeita reduced-motion. Fontes: Bricolage Grotesque (display) + Inter. Mascote só em hero, carrinho vazio, 404, sucesso e avatar.
 
 ## Stack
 Next 16.4 (App Router, `cacheComponents` + `partialPrefetching` ligados), React 19.3, TS strict, Tailwind 4.3, lucide-react, Vitest, Playwright. Leia `node_modules/next/dist/docs/` antes de usar API do Next.
@@ -40,3 +41,11 @@ Contas, avaliações, pagamento real, admin, Supabase, rastreio, marketplaces, f
 - Parcelamento: até 6x sem juros com parcela mínima R$ 10. Pix 5% sobre o subtotal.
 - Checkout: só tela, frete "a calcular, confirmamos pelo WhatsApp", pedido fictício `JHO-XXXXXX`.
 - `@types/node` 24 (Node 24) para compatibilidade com Vitest 5.
+- 2026-10-11 · Tema trocado de creme para azul e preto (pedido do Vinicius, com base no mascote oficial). Tokens: `cream`→`paper`, tint `creamDark`→`slate`.
+- Mascote/logo oficiais: arte recebida no chat; aguardando os arquivos. Hoje `public/mascote-*.svg` são placeholders.
+- Produto: no mobile o único botão de compra é a BuyBar fixa (AddToCart só no desktop). Galeria com miniaturas fica para quando houver produto com mais de 1 foto.
+- Checkout: erros só aparecem no envio e somem ao corrigir (validar no blur fazia o clique em "Confirmar" se perder). `<select>` de UF é controlado.
+- `<html data-scroll-behavior="smooth">`: sem isso o Next 16 abria páginas no meio da rolagem.
+- `scroll-padding` no `html` para o header e a barra inferior não cobrirem o foco.
+- 404 de slug inexistente: com PPR o status HTTP é 200, mas o Next injeta `noindex` (comportamento documentado).
+- E2E sem emulação "iPhone 13" do Playwright (o toque emulado falhava no card); viewport 375 em Chromium.

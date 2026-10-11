@@ -3,11 +3,11 @@
     { "slug": "casa", "name": "Casa", "icon": "Sofa", "tint": "sky" },
     { "slug": "cozinha", "name": "Cozinha", "icon": "CookingPot", "tint": "lemon" },
     { "slug": "ferramentas", "name": "Ferramentas", "icon": "Wrench", "tint": "blue50" },
-    { "slug": "eletronicos", "name": "Eletrônicos", "icon": "Headphones", "tint": "creamDark" },
+    { "slug": "eletronicos", "name": "Eletrônicos", "icon": "Headphones", "tint": "slate" },
     { "slug": "beleza", "name": "Beleza", "icon": "Sparkles", "tint": "sky" },
     { "slug": "brinquedos", "name": "Brinquedos", "icon": "Puzzle", "tint": "lemon" },
     { "slug": "pet", "name": "Pet", "icon": "PawPrint", "tint": "blue50" },
-    { "slug": "organizacao", "name": "Organização", "icon": "Boxes", "tint": "creamDark" }
+    { "slug": "organizacao", "name": "Organização", "icon": "Boxes", "tint": "slate" }
   ],
   "products": [
     { "id": "p01", "slug": "jogo-de-lencol-casal-200-fios", "name": "Jogo de Lençol Casal 200 Fios", "categorySlug": "casa", "priceCents": 8990, "compareAtCents": 12990, "badge": "oferta", "soldCount": 812, "images": [], "description": "Jogo de lençol em percal 200 fios, macio e fresquinho. Vem com lençol de elástico, lençol de cima e duas fronhas. Cabe em colchões de até 30 cm de altura.", "specs": [{ "label": "Tamanho", "value": "Casal (1,38 x 1,88 m)" }, { "label": "Material", "value": "Algodão percal 200 fios" }, { "label": "Peças", "value": "4" }] },

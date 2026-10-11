@@ -1,7 +1,7 @@
 import Link from "next/link"
 import type { ComponentProps, ReactNode } from "react"
 
-type Variant = "primary" | "secondary" | "ghost"
+type Variant = "primary" | "secondary" | "dark" | "ghost"
 
 const base =
   "inline-flex min-h-12 items-center justify-center gap-2 rounded-card px-5 font-display text-base font-bold whitespace-nowrap disabled:pointer-events-none disabled:opacity-50"
@@ -9,6 +9,8 @@ const base =
 const variants: Record<Variant, string> = {
   primary: "brut-press border-2 border-ink bg-blue text-white",
   secondary: "brut-press border-2 border-ink bg-white text-ink",
+  // sobre fundo azul (hero): preto com sombra preta
+  dark: "brut-press border-2 border-ink bg-ink text-white",
   ghost: "text-blue underline-offset-4 hover:underline",
 }
 

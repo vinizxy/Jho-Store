@@ -5,19 +5,20 @@
   /* Remove a paleta padrão do Tailwind: só as cores da marca existem. */
   --color-*: initial;
 
-  --color-blue: #2c5aa0; /* primária: CTA, links, preço */
-  --color-ink: #1a1a1f; /* texto, bordas, sombra */
-  --color-cream: #fff1dc; /* fundo da página */
-  --color-sky: #a8dadc; /* apoio: chips ativos, faixas */
+  /* Tema azul e preto, das roupas do mascote (camiseta azul, bermuda preta). */
+  --color-blue: #2c5aa0; /* camiseta: primária, CTA, links, preço */
+  --color-ink: #1a1a1f; /* bermuda: texto, bordas, sombra, faixas escuras */
+  --color-paper: #eef2f8; /* fundo da página (cinza-azulado bem claro) */
+  --color-sky: #93ccf2; /* alça da sacola: apoio, chips ativos, destaque sobre o preto */
   --color-white: #ffffff; /* superfícies */
   --color-lemon: #ffd84d; /* acento raro: Pix e ofertas. Nunca como cor de texto. */
   --color-muted: #4a4a55; /* texto secundário */
 
-  /* Tints de categoria (fundos de placeholder) */
-  --color-tint-sky: #cdebec;
+  /* Tints de categoria (fundos de placeholder), todos na família do azul */
+  --color-tint-sky: #d7ecfb;
   --color-tint-lemon: #fff0b8;
   --color-tint-blue50: #dce6f5;
-  --color-tint-cream-dark: #f6ddb8;
+  --color-tint-slate: #e3e7ef;
 
   --shadow-brut: 4px 4px 0 var(--color-ink);
   --shadow-brut-sm: 2px 2px 0 var(--color-ink);

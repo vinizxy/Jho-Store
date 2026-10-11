@@ -17,15 +17,17 @@ export default async function Home() {
 
   return (
     <>
-      <section className="border-b-2 border-ink bg-white">
+      <section className="border-b-2 border-ink bg-blue text-white [--focus:var(--color-white)]">
         <div className="container-page grid items-center gap-6 py-8 md:grid-cols-[1.4fr_1fr] md:py-14">
           <div className="flex flex-col items-start gap-5">
             <Badge kind="pix">{Math.round(PIX_DISCOUNT * 100)}% off em tudo no Pix</Badge>
             <h1 className="text-4xl leading-[1.05] font-extrabold tracking-tight md:text-6xl">
-              Tudo pra sua casa, <span className="text-blue">sem pesar no bolso.</span>
+              Tudo pra sua casa, <span className="text-sky">sem pesar no bolso.</span>
             </h1>
-            <p className="max-w-[40ch] text-lg text-muted">Cozinha, ferramentas, eletrônicos, pet e muito mais, com entrega pra todo o Brasil.</p>
-            <Button href="#ofertas">Ver ofertas do dia</Button>
+            <p className="max-w-[40ch] text-lg">Cozinha, ferramentas, eletrônicos, pet e muito mais, com entrega pra todo o Brasil.</p>
+            <Button href="#ofertas" variant="dark">
+              Ver ofertas do dia
+            </Button>
           </div>
           <Mascot pose="hero" priority className="mx-auto hidden h-80 w-auto md:block" />
         </div>

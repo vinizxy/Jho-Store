@@ -8,14 +8,14 @@ export const contentType = "image/png"
 // ImageResponse não lê CSS: as cores repetem os tokens de styles/tokens.css.
 const ink = "#1A1A1F"
 const blue = "#2C5AA0"
-const cream = "#FFF1DC"
+const paper = "#EEF2F8"
 const lemon = "#FFD84D"
 
 export default function OpengraphImage() {
   const [first, ...rest] = BRAND.name.split(" ")
   return new ImageResponse(
     (
-      <div style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-between", background: cream, padding: 72, color: ink }}>
+      <div style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-between", background: paper, padding: 72, color: ink }}>
         <div style={{ display: "flex", fontSize: 96, fontWeight: 800, letterSpacing: -3 }}>
           {first}&nbsp;<span style={{ color: blue }}>{rest.join(" ")}</span>
         </div>

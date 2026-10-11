@@ -18,7 +18,7 @@ export function BottomNav() {
   return (
     <nav
       aria-label="Navegação principal"
-      className="fixed inset-x-0 bottom-0 z-30 border-t-2 border-ink bg-white pb-[env(safe-area-inset-bottom)] md:hidden"
+      className="fixed inset-x-0 bottom-0 z-30 bg-ink pb-[env(safe-area-inset-bottom)] text-white [--focus:var(--color-sky)] md:hidden"
     >
       <ul className="grid h-16 grid-cols-4">
         {items.map(({ href, label, Icon }) => {
@@ -30,13 +30,13 @@ export function BottomNav() {
                 href={href}
                 aria-current={active ? "page" : undefined}
                 className={`flex h-full flex-col items-center justify-center gap-1 text-xs ${
-                  active ? "font-bold text-blue" : "font-medium text-ink"
+                  active ? "font-bold text-sky" : "font-medium text-white"
                 }`}
               >
                 <span className="relative">
                   <Icon aria-hidden className="size-6" strokeWidth={active ? 2.5 : 2} />
                   {badge && (
-                    <span className="absolute -top-2 -right-3 grid h-5 min-w-5 place-items-center rounded-full border-2 border-ink bg-lemon px-1 text-[11px] font-bold text-ink">
+                    <span className="absolute -top-2 -right-3 grid h-5 min-w-5 place-items-center rounded-full bg-lemon px-1 text-[11px] font-bold text-ink">
                       {badge}
                       <span className="sr-only"> itens</span>
                     </span>
