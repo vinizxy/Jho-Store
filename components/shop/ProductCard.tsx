@@ -5,7 +5,20 @@ import { discountPercent } from "@/lib/cart/pricing"
 import type { Category, Product } from "@/lib/catalog/types"
 import { ProductImage } from "./ProductImage"
 
-export function ProductCard({ product, category, priority }: { product: Product; category?: Category; priority?: boolean }) {
+export type HeadingTag = "h2" | "h3"
+
+export function ProductCard({
+  product,
+  category,
+  priority,
+  titleAs: Title = "h3",
+}: {
+  product: Product
+  category?: Category
+  priority?: boolean
+  /** h2 quando a grade vem logo abaixo do h1 da página (ordem de títulos). */
+  titleAs?: HeadingTag
+}) {
   const off = product.compareAtCents ? discountPercent(product.priceCents, product.compareAtCents) : 0
   return (
     <Link
@@ -26,9 +39,9 @@ export function ProductCard({ product, category, priority }: { product: Product;
         </div>
       </div>
       <div className="flex flex-1 flex-col gap-2 p-3 md:p-4">
-        <h3 className="line-clamp-2 min-h-[2lh] font-sans text-sm leading-snug font-semibold group-hover:text-blue md:text-base">
+        <Title className="line-clamp-2 min-h-[2lh] font-sans text-sm leading-snug font-semibold group-hover:text-blue md:text-base">
           {product.name}
-        </h3>
+        </Title>
         <div className="mt-auto">
           <Price cents={product.priceCents} compareAtCents={product.compareAtCents} />
         </div>

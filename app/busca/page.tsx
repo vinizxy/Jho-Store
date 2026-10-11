@@ -87,7 +87,7 @@ async function SearchResults({ searchParams }: { searchParams: PageProps<"/busca
       </p>
       <ListToolbar basePath="/busca" q={q} filter={filter} sort={sort} />
       {products.length > 0 ? (
-        <ProductGrid products={products} categories={categories} priorityCount={2} />
+        <ProductGrid products={products} categories={categories} priorityCount={2} titleAs="h2" />
       ) : (
         <EmptyState title="Nenhum produto com esse filtro" text="Tente outro filtro." />
       )}

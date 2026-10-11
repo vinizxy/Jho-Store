@@ -4,7 +4,6 @@ import type { Category, Tint } from "@/lib/catalog/types"
 
 export const tintBg: Record<Tint, string> = {
   sky: "bg-tint-sky",
-  lemon: "bg-tint-lemon",
   blue50: "bg-tint-blue50",
   slate: "bg-tint-slate",
 }

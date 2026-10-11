@@ -21,6 +21,7 @@ npm run dev                  # http://localhost:3000
 | `npm test` | testes de preço, carrinho, busca e checkout (Vitest) |
 | `npm run e2e` | fluxo de compra no navegador (Playwright) |
 | `npm run typecheck` / `npm run lint` | checagens de código |
+| `node scripts/screenshots.mjs` | prints das telas em 375/768/1280 (com `npx next start -p 3100` rodando) |
 
 ## Onde mudar o quê
 

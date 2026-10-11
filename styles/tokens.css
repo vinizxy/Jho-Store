@@ -16,8 +16,7 @@
 
   /* Tints de categoria (fundos de placeholder), todos na família do azul */
   --color-tint-sky: #d7ecfb;
-  --color-tint-lemon: #fff0b8;
-  --color-tint-blue50: #dce6f5;
+  --color-tint-blue50: #c8d9f1;
   --color-tint-slate: #e3e7ef;
 
   --shadow-brut: 4px 4px 0 var(--color-ink);

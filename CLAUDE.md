@@ -48,4 +48,7 @@ Contas, avaliações, pagamento real, admin, Supabase, rastreio, marketplaces, f
 - `<html data-scroll-behavior="smooth">`: sem isso o Next 16 abria páginas no meio da rolagem.
 - `scroll-padding` no `html` para o header e a barra inferior não cobrirem o foco.
 - 404 de slug inexistente: com PPR o status HTTP é 200, mas o Next injeta `noindex` (comportamento documentado).
+- Tints dos placeholders só na família do azul (sky, blue50, slate); amarelo-limão só em Pix/ofertas.
+- Favicon = avatar do mascote (`app/icon.svg`).
+- Lighthouse mobile local (2026-10-11): a11y/bp/SEO 100, CLS 0, performance 87 (LCP 3,1s simulado; o peso é o JS do framework). Medir de novo no PageSpeed após deploy na Vercel.
 - E2E sem emulação "iPhone 13" do Playwright (o toque emulado falhava no card); viewport 375 em Chromium.

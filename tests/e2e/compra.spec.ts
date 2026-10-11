@@ -46,6 +46,19 @@ test("compra em 3 toques: home → produto → carrinho → checkout", async ({ 
   await expect(page.getByRole("heading", { name: "Seu carrinho está vazio" })).toBeVisible()
 })
 
+test("gaveta do carrinho funciona só com teclado", async ({ page }) => {
+  await page.goto("/")
+  const cartButton = page.getByRole("button", { name: /Carrinho, \d+ ite/ })
+  await cartButton.focus()
+  await page.keyboard.press("Enter")
+  const drawer = page.getByRole("dialog", { name: /Seu carrinho/ })
+  await expect(drawer).toBeVisible()
+  await expect(drawer.getByRole("button", { name: "Fechar carrinho" })).toBeFocused()
+  await page.keyboard.press("Escape")
+  await expect(drawer).toBeHidden()
+  await expect(cartButton).toBeFocused()
+})
+
 test("busca sem acento e filtro pela URL", async ({ page }) => {
   await page.goto("/busca?q=eletronico")
   await expect(page.getByText(/resultados? para “eletronico”/)).toBeVisible()

@@ -63,7 +63,7 @@ async function CategoryResults({
         {products.length} {products.length === 1 ? "produto" : "produtos"}
       </p>
       {products.length > 0 ? (
-        <ProductGrid products={products} categories={categories} priorityCount={2} />
+        <ProductGrid products={products} categories={categories} priorityCount={2} titleAs="h2" />
       ) : (
         <EmptyState
           title="Nenhum produto com esse filtro"

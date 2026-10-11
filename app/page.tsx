@@ -29,7 +29,7 @@ export default async function Home() {
               Ver ofertas do dia
             </Button>
           </div>
-          <Mascot pose="hero" priority className="mx-auto hidden h-80 w-auto md:block" />
+          <Mascot pose="hero" className="mx-auto hidden h-80 w-auto md:block" />
         </div>
       </section>
 

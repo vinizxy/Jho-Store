@@ -14,7 +14,7 @@ export function CartLine({ item, category, onNavigate }: { item: CartItem; categ
   const href = `/p/${item.slug}`
   return (
     <li className="flex gap-3 py-4">
-      <Link href={href} onClick={onNavigate} tabIndex={-1} aria-hidden className="w-20 shrink-0 overflow-hidden rounded-card border-2 border-ink">
+      <Link href={href} onClick={onNavigate} tabIndex={-1} aria-hidden className="w-20 shrink-0 self-start overflow-hidden rounded-card border-2 border-ink">
         <ProductImage name={item.name} category={category} sizes="80px" compact />
       </Link>
       <div className="flex min-w-0 flex-1 flex-col gap-2">

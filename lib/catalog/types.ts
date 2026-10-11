@@ -1,4 +1,4 @@
-export type Tint = "sky" | "lemon" | "blue50" | "slate"
+export type Tint = "sky" | "blue50" | "slate"
 
 export type IconName =
   | "Sofa"
