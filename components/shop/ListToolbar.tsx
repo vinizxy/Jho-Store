@@ -11,7 +11,20 @@ const chips: { value?: Filter; label: string }[] = [
 ]
 
 // Filtros são links (funcionam sem JS, URL compartilhável). Só a ordenação usa JS.
-export function ListToolbar({ basePath, q, filter, sort }: { basePath: string; q?: string; filter?: Filter; sort: Sort }) {
+export function ListToolbar({
+  basePath,
+  q,
+  filter,
+  sort,
+  count,
+}: {
+  basePath: string
+  q?: string
+  filter?: Filter
+  sort: Sort
+  /** Mostrado na mesma linha da ordenação. */
+  count?: number
+}) {
   const params: ListParams = { q, f: filter, ordem: sort }
   return (
     <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
@@ -26,7 +39,14 @@ export function ListToolbar({ basePath, q, filter, sort }: { basePath: string; q
           ))}
         </ul>
       </nav>
-      <SortSelect basePath={basePath} params={params} value={sort} />
+      <div className="flex items-center justify-between gap-3 md:justify-end">
+        {count !== undefined && (
+          <p className="text-sm text-muted md:hidden" aria-live="polite">
+            {count} {count === 1 ? "produto" : "produtos"}
+          </p>
+        )}
+        <SortSelect basePath={basePath} params={params} value={sort} />
+      </div>
     </div>
   )
 }

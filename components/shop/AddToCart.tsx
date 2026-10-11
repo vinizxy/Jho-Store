@@ -23,11 +23,11 @@ export function AddToCart({ product }: { product: Product }) {
   )
 }
 
-// Barra fixa no mobile, acima da navegação inferior. A quantidade se ajusta no carrinho.
+// Barra fixa no mobile, no lugar da navegação inferior (que some na página do produto). A quantidade se ajusta no carrinho.
 export function BuyBar({ product }: { product: Product }) {
   const { add } = useCart()
   return (
-    <div className="fixed inset-x-0 bottom-[calc(4rem+env(safe-area-inset-bottom))] z-20 border-t-2 border-ink bg-white px-4 py-3 md:hidden">
+    <div className="fixed inset-x-0 bottom-0 z-30 border-t-2 border-ink bg-white px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] md:hidden">
       <div className="flex items-center justify-between gap-3">
         <div className="min-w-0">
           <p className="font-display text-xl leading-tight font-bold text-blue">{formatBRL(pixPrice(product.priceCents))}</p>

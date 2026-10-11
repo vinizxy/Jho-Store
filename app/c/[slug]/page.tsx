@@ -59,8 +59,8 @@ async function CategoryResults({
 
   return (
     <>
-      <ListToolbar basePath={basePath} filter={filter} sort={sort} />
-      <p className="text-sm text-muted" aria-live="polite">
+      <ListToolbar basePath={basePath} filter={filter} sort={sort} count={products.length} />
+      <p className="hidden text-sm text-muted md:block">
         {products.length} {products.length === 1 ? "produto" : "produtos"}
       </p>
       {products.length > 0 ? (

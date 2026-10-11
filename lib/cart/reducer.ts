@@ -35,7 +35,8 @@ export function cartReducer(state: CartItem[], action: CartAction): CartItem[] {
 
 export function cartTotals(items: CartItem[]) {
   const subtotalCents = items.reduce((sum, i) => sum + i.priceCents * i.qty, 0)
-  const pixTotalCents = pixPrice(subtotalCents)
+  // Soma dos Pix por linha: as linhas mostradas (carrinho/checkout) somam exatamente o total.
+  const pixTotalCents = items.reduce((sum, i) => sum + pixPrice(i.priceCents * i.qty), 0)
   return {
     count: items.reduce((sum, i) => sum + i.qty, 0),
     subtotalCents,

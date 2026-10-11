@@ -8,6 +8,7 @@ import type { Category } from "@/lib/catalog/types"
 import { CartLine } from "./CartLine"
 import { CartSummary } from "./CartSummary"
 import { EmptyState } from "./EmptyState"
+import { UndoRemove } from "./UndoRemove"
 
 // <dialog> nativo: foco preso, Esc e retorno do foco vêm de graça.
 export function CartDrawer({ categories }: { categories: Category[] }) {
@@ -43,10 +44,13 @@ export function CartDrawer({ categories }: { categories: Category[] }) {
         {lastAdded && (
           <span key={lastAdded.at} className="flex items-center gap-2 bg-sky px-5 py-2.5 text-sm font-semibold">
             <CircleCheck aria-hidden className="size-5 shrink-0" />
-            Adicionado ao carrinho
+            {lastAdded.qty > 1 ? `Adicionado. Agora são ${lastAdded.qty} no carrinho` : "Adicionado ao carrinho"}
           </span>
         )}
       </p>
+      <div className="px-5 pt-3 empty:hidden">
+        <UndoRemove />
+      </div>
 
       {items.length === 0 ? (
         <div className="flex flex-1 items-center justify-center px-5">

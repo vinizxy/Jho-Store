@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { CategoryIcon } from "@/components/ui/CategoryIcon"
+import { CatalogIcon } from "@/components/ui/CatalogIcon"
 import type { Category } from "@/lib/catalog/types"
 import { tintBg } from "./ProductImage"
 
@@ -21,7 +21,7 @@ export function CategoryGrid({ categories, variant }: { categories: Category[]; 
               strip ? "h-24 w-24 text-sm md:h-28 md:w-full" : "min-h-32 p-4 text-base"
             }`}
           >
-            <CategoryIcon name={c.icon} className={strip ? "size-7" : "size-10"} />
+            <CatalogIcon name={c.icon} className={strip ? "size-7" : "size-10"} />
             {c.name}
           </Link>
         </li>

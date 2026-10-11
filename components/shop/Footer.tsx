@@ -41,6 +41,9 @@ export function Footer({ categories }: { categories: Category[] }) {
               Fale no WhatsApp
             </a>
           )}
+          <Link href="/trocas" className="w-fit py-1 hover:text-sky hover:underline">
+            Trocas e devoluções
+          </Link>
           <p className="text-white/75">
             Pix com {Math.round(PIX_DISCOUNT * 100)}% de desconto ou cartão em até {MAX_INSTALLMENTS}x sem juros.
           </p>

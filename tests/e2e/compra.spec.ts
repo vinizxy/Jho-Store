@@ -67,7 +67,8 @@ test("gaveta do carrinho funciona só com teclado", async ({ page }) => {
 
 test("busca sem acento e filtro pela URL", async ({ page }) => {
   await page.goto("/busca?q=eletronico")
-  await expect(page.getByText(/resultados? para “eletronico”/)).toBeVisible()
+  // filter visible: o streaming do Next mantém por um instante uma cópia escondida do conteúdo
+  await expect(page.getByText(/resultados? para “eletronico”/).filter({ visible: true })).toBeVisible()
   await page.getByRole("link", { name: "Em oferta" }).click()
   await expect(page).toHaveURL(/f=oferta/)
   await expect(page.getByRole("link", { name: "Em oferta" })).toHaveAttribute("aria-current", "page")

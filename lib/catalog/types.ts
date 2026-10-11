@@ -1,14 +1,12 @@
 export type Tint = "sky" | "blue50" | "slate"
 
+// Ícones lucide usados por categorias e produtos (placeholder até chegarem as fotos).
 export type IconName =
-  | "Sofa"
-  | "CookingPot"
-  | "Wrench"
-  | "Headphones"
-  | "Sparkles"
-  | "Puzzle"
-  | "PawPrint"
-  | "Boxes"
+  | "Armchair" | "Bed" | "BedDouble" | "Blinds" | "Blocks" | "Bone" | "Boxes" | "Brush" | "Briefcase" | "Cable"
+  | "Car" | "Cat" | "ChefHat" | "CookingPot" | "Crosshair" | "Dice5" | "Dog" | "Drill" | "Flame" | "Footprints"
+  | "Hand" | "Headphones" | "Lamp" | "Layers" | "LayoutGrid" | "Library" | "Microwave" | "Package" | "Palette"
+  | "PawPrint" | "PlugZap" | "Puzzle" | "Ruler" | "ScanFace" | "Shirt" | "Sofa" | "Soup" | "Sparkles" | "Speaker"
+  | "Utensils" | "Watch" | "Wind" | "Wrench"
 
 export type Category = { slug: string; name: string; icon: IconName; tint: Tint }
 
@@ -22,6 +20,7 @@ export type Product = {
   compareAtCents?: number // "de R$ X" em ofertas
   badge?: "oferta" | "mais-vendido" | "novo"
   images: string[] // vazio → placeholder estilizado
+  icon?: IconName // ícone do placeholder; sem ele, usa o da categoria
   specs: { label: string; value: string }[]
   soldCount: number
 }

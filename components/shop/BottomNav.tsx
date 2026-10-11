@@ -15,6 +15,8 @@ const items = [
 export function BottomNav() {
   const pathname = usePathname()
   const { totals, hydrated } = useCart()
+  // Na página do produto a barra de compra ocupa este lugar (menos barra fixa empilhada).
+  if (pathname.startsWith("/p/")) return null
   return (
     <nav
       aria-label="Navegação principal"

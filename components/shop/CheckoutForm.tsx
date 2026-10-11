@@ -7,8 +7,8 @@ import { Button } from "@/components/ui/Button"
 import { Mascot } from "@/components/ui/Mascot"
 import { Skeleton } from "@/components/ui/Skeleton"
 import { useCart } from "@/lib/cart/CartProvider"
-import { formatBRL, installments } from "@/lib/cart/pricing"
-import { formatCep, formatPhone, orderNumber, UFS } from "@/lib/checkout"
+import { formatBRL, installments, pixPrice } from "@/lib/cart/pricing"
+import { formatCep, formatPhone, lookupCep, orderNumber, UFS } from "@/lib/checkout"
 import { PIX_DISCOUNT } from "@/lib/config"
 import { EmptyState } from "./EmptyState"
 
@@ -67,8 +67,37 @@ export function CheckoutForm() {
   const [cep, setCep] = useState("")
   const [phone, setPhone] = useState("")
   const [uf, setUf] = useState("")
+  const [addr, setAddr] = useState({ endereco: "", bairro: "", cidade: "" })
+  const [cepStatus, setCepStatus] = useState<"idle" | "loading" | "ok" | "notfound">("idle")
+  const cepAbort = useRef<AbortController | null>(null)
   const [order, setOrder] = useState<string | null>(null)
   const successRef = useRef<HTMLHeadingElement>(null)
+
+  // CEP completo → ViaCEP preenche rua, bairro, cidade e UF; o foco vai para "Número".
+  async function fillFromCep(value: string) {
+    cepAbort.current?.abort()
+    if (value.replace(/\D/g, "").length !== 8) return setCepStatus("idle")
+    const ctrl = new AbortController()
+    cepAbort.current = ctrl
+    setCepStatus("loading")
+    try {
+      const found = await lookupCep(value, ctrl.signal)
+      if (ctrl.signal.aborted) return
+      if (!found) return setCepStatus("notfound")
+      setAddr((a) => ({
+        endereco: found.endereco || a.endereco,
+        bairro: found.bairro || a.bairro,
+        cidade: found.cidade || a.cidade,
+      }))
+      setUf(found.uf)
+      setErrors((e) => ({ ...e, endereco: found.endereco ? "" : e.endereco, bairro: found.bairro ? "" : e.bairro, cidade: "", uf: "" }))
+      setCepStatus("ok")
+      document.getElementById(found.endereco ? "numero" : "endereco")?.focus()
+    } catch {
+      // sem internet/serviço fora: segue manual, sem bloquear a compra
+      if (!ctrl.signal.aborted) setCepStatus("notfound")
+    }
+  }
 
   if (order) {
     return (
@@ -150,18 +179,19 @@ export function CheckoutForm() {
             <span className="line-clamp-2">
               {i.qty}x {i.name}
             </span>
-            <span className="shrink-0 tabular-nums">{formatBRL(i.priceCents * i.qty)}</span>
+            {/* mesmo preço do carrinho: Pix por linha quando o Pix está escolhido */}
+            <span className="shrink-0 tabular-nums">
+              {formatBRL(payment === "pix" ? pixPrice(i.priceCents * i.qty) : i.priceCents * i.qty)}
+            </span>
           </li>
         ))}
       </ul>
       <dl className="grid grid-cols-[1fr_auto] gap-x-4 gap-y-1.5 border-t border-ink/15 pt-3 text-sm">
+        {/* As linhas acima já estão no preço da forma escolhida: subtotal = soma delas. */}
         <dt>Subtotal</dt>
-        <dd className="text-right tabular-nums">{formatBRL(totals.subtotalCents)}</dd>
+        <dd className="text-right tabular-nums">{formatBRL(total)}</dd>
         {payment === "pix" && (
-          <>
-            <dt>Desconto Pix</dt>
-            <dd className="text-right tabular-nums">- {formatBRL(totals.pixDiscountCents)}</dd>
-          </>
+          <dd className="col-span-2 text-right text-xs text-muted">Você economiza {formatBRL(totals.pixDiscountCents)} no Pix</dd>
         )}
         <dt>Frete</dt>
         <dd className="text-right text-muted">a calcular</dd>
@@ -182,6 +212,14 @@ export function CheckoutForm() {
     <div className="grid gap-8 md:grid-cols-[1fr_360px] md:items-start md:gap-10">
       <form noValidate onSubmit={onSubmit} className="flex flex-col gap-8">
         <h1 className="text-3xl font-bold md:text-4xl">Finalizar compra</h1>
+
+        {/* No celular o total fica à vista desde o início (no desktop há o resumo fixo à direita). */}
+        <details className="-mt-4 rounded-card border-2 border-ink bg-white p-4 md:hidden">
+          <summary className="cursor-pointer font-semibold">
+            {totals.count} {totals.count === 1 ? "item" : "itens"} · total {formatBRL(total)} <span className="font-normal text-blue">ver resumo</span>
+          </summary>
+          <div className="mt-4 flex flex-col gap-3">{summary}</div>
+        </details>
 
         {/* Resumo de erros: anunciado ao enviar, com atalho para cada campo. */}
         <div role="alert" className="empty:hidden">
@@ -246,13 +284,22 @@ export function CheckoutForm() {
               inputMode="numeric"
               pattern="\d{5}-\d{3}"
               value={cep}
-              onChange={onMasked(formatCep, setCep)}
+              onChange={(e) => {
+                onMasked(formatCep, setCep)(e)
+                fillFromCep(formatCep(e.target.value))
+              }}
+              aria-describedby={errors.cep ? "cep-erro" : "cep-status"}
               className={inputCls}
             />
+            <p id="cep-status" aria-live="polite" className="text-sm text-muted empty:hidden">
+              {cepStatus === "loading" && "Buscando endereço…"}
+              {cepStatus === "ok" && "Endereço preenchido pelo CEP. Confira e informe o número."}
+              {cepStatus === "notfound" && "Não achamos esse CEP. Preencha o endereço abaixo."}
+            </p>
           </Field>
           <div className="grid gap-4 sm:grid-cols-[1fr_8rem]">
             <Field def={FIELDS.endereco} error={errors.endereco}>
-              <input {...props("endereco")} autoComplete="address-line1" className={inputCls} />
+              <input {...props("endereco")} autoComplete="address-line1" value={addr.endereco} onChange={(e) => setAddr({ ...addr, endereco: e.target.value })} className={inputCls} />
             </Field>
             <Field def={FIELDS.numero} error={errors.numero}>
               <input {...props("numero")} autoComplete="off" className={inputCls} />
@@ -263,12 +310,12 @@ export function CheckoutForm() {
               <input {...props("complemento")} autoComplete="address-line2" className={inputCls} />
             </Field>
             <Field def={FIELDS.bairro} error={errors.bairro}>
-              <input {...props("bairro")} autoComplete="address-level3" className={inputCls} />
+              <input {...props("bairro")} autoComplete="address-level3" value={addr.bairro} onChange={(e) => setAddr({ ...addr, bairro: e.target.value })} className={inputCls} />
             </Field>
           </div>
           <div className="grid gap-4 sm:grid-cols-[1fr_8rem]">
             <Field def={FIELDS.cidade} error={errors.cidade}>
-              <input {...props("cidade")} autoComplete="address-level2" className={inputCls} />
+              <input {...props("cidade")} autoComplete="address-level2" value={addr.cidade} onChange={(e) => setAddr({ ...addr, cidade: e.target.value })} className={inputCls} />
             </Field>
             <Field def={FIELDS.uf} error={errors.uf}>
               {/* controlado: um <select> não controlado voltava para vazio quando o form re-renderizava */}
@@ -295,7 +342,14 @@ export function CheckoutForm() {
         </fieldset>
 
         <fieldset className="flex flex-col gap-3">
-          <legend className="mb-4 font-display text-xl font-bold">3. Pagamento</legend>
+          <legend className="mb-1 font-display text-xl font-bold">3. Como prefere pagar?</legend>
+          <div className="mb-2 flex items-center gap-3 rounded-card bg-tint-sky p-4">
+            <Mascot pose="avatar" className="size-12 shrink-0 rounded-full" />
+            <p className="text-sm">
+              <strong className="font-semibold">Você escolhe agora e paga depois.</strong> Primeiro confirmamos o frete e o prazo pelo
+              WhatsApp; só então combinamos o pagamento.
+            </p>
+          </div>
           <PayOption value="pix" checked={payment === "pix"} onSelect={setPayment} icon={<QrCode aria-hidden className="size-6" />}>
             <span className="flex flex-wrap items-center gap-2 font-semibold">
               Pix <Badge kind="pix">{Math.round(PIX_DISCOUNT * 100)}% off</Badge>
@@ -310,25 +364,11 @@ export function CheckoutForm() {
           </PayOption>
         </fieldset>
 
-        <details className="rounded-card border-2 border-ink bg-white p-4 md:hidden">
-          <summary className="cursor-pointer font-semibold">
-            Ver resumo ({totals.count} {totals.count === 1 ? "item" : "itens"}) · {formatBRL(total)}
-          </summary>
-          <div className="mt-4 flex flex-col gap-3">{summary}</div>
-        </details>
-
-        <div className="flex flex-col gap-4">
-          <div className="flex items-center gap-3 rounded-card bg-tint-sky p-4">
-            <Mascot pose="avatar" className="size-12 shrink-0 rounded-full" />
-            <p className="text-sm">
-              <strong className="font-semibold">Você não paga nada agora.</strong> Confirmamos o frete e o prazo pelo WhatsApp e só depois
-              combinamos o pagamento.
-            </p>
-          </div>
+        <div className="flex flex-col gap-3">
           <Button type="submit" className="w-full md:w-auto md:self-start">
             Confirmar pedido · {formatBRL(total)}
           </Button>
-          <p className="text-xs text-muted">Demonstração: seus dados não saem deste navegador.</p>
+          <p className="text-xs text-muted">Demonstração: nenhum pedido é enviado. Só o CEP é consultado no ViaCEP para preencher o endereço.</p>
         </div>
       </form>
 

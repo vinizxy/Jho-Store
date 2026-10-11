@@ -78,6 +78,7 @@ export default async function ProductPage({ params }: PageProps<"/p/[slug]">) {
           <ProductImage
             name={product.name}
             image={product.images[0]}
+          icon={product.icon}
             category={category ?? undefined}
             sizes="(min-width: 768px) 50vw, 100vw"
             priority

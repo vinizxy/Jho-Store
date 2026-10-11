@@ -7,6 +7,7 @@ import type { Category } from "@/lib/catalog/types"
 import { CartLine } from "./CartLine"
 import { CartSummary } from "./CartSummary"
 import { EmptyState } from "./EmptyState"
+import { UndoRemove } from "./UndoRemove"
 
 export function CartPageView({ categories }: { categories: Category[] }) {
   const { items, hydrated } = useCart()
@@ -16,12 +17,15 @@ export function CartPageView({ categories }: { categories: Category[] }) {
 
   if (items.length === 0) {
     return (
-      <EmptyState
-        as="h1"
-        title="Seu carrinho está vazio"
-        text="Que tal dar uma olhada nas ofertas do dia?"
-        action={<Button href="/ofertas">Ver ofertas</Button>}
-      />
+      <>
+        <UndoRemove />
+        <EmptyState
+          as="h1"
+          title="Seu carrinho está vazio"
+          text="Que tal dar uma olhada nas ofertas do dia?"
+          action={<Button href="/ofertas">Ver ofertas</Button>}
+        />
+      </>
     )
   }
 
@@ -29,6 +33,9 @@ export function CartPageView({ categories }: { categories: Category[] }) {
     <div className="grid gap-6 md:grid-cols-[1fr_380px] md:items-start md:gap-10">
       <div>
         <h1 className="text-3xl font-bold md:text-4xl">Seu carrinho</h1>
+        <div className="mt-3 empty:hidden">
+          <UndoRemove />
+        </div>
         <ul className="mt-2 divide-y divide-ink/15">
           {items.map((item) => (
             <CartLine key={item.slug} item={item} category={bySlug.get(item.categorySlug)} />

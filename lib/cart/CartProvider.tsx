@@ -17,8 +17,11 @@ type CartContextValue = {
   drawerOpen: boolean
   openDrawer: () => void
   closeDrawer: () => void
-  /** Muda a cada "add" para o anúncio de leitor de tela. */
-  lastAdded: { name: string; at: number } | null
+  /** Muda a cada "add" para o anúncio; qty = total desse item no carrinho depois de adicionar. */
+  lastAdded: { name: string; qty: number; at: number } | null
+  /** Último item removido, para "Desfazer". */
+  lastRemoved: CartItem | null
+  undoRemove: () => void
 }
 
 const CartContext = createContext<CartContextValue | null>(null)
@@ -29,6 +32,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const hydrated = useSyncExternalStore(noop, () => true, () => false)
   const [drawerOpen, setDrawerOpen] = useState(false)
   const [lastAdded, setLastAdded] = useState<CartContextValue["lastAdded"]>(null)
+  const [lastRemoved, setLastRemoved] = useState<CartItem | null>(null)
 
   const value = useMemo<CartContextValue>(
     () => ({
@@ -38,10 +42,22 @@ export function CartProvider({ children }: { children: ReactNode }) {
       add: (product, qty = 1) => {
         const { slug, name, priceCents, categorySlug } = product
         dispatch({ type: "add", item: { slug, name, priceCents, categorySlug }, qty })
-        setLastAdded({ name, at: Date.now() })
+        const now = getSnapshot().find((i) => i.slug === slug)?.qty ?? qty
+        setLastAdded({ name, qty: now, at: Date.now() })
+        setLastRemoved(null)
         setDrawerOpen(true)
       },
-      remove: (slug) => dispatch({ type: "remove", slug }),
+      remove: (slug) => {
+        setLastRemoved(items.find((i) => i.slug === slug) ?? null)
+        dispatch({ type: "remove", slug })
+      },
+      lastRemoved,
+      undoRemove: () => {
+        if (!lastRemoved) return
+        const { qty, ...item } = lastRemoved
+        dispatch({ type: "add", item, qty })
+        setLastRemoved(null)
+      },
       setQty: (slug, qty) => dispatch({ type: "setQty", slug, qty }),
       clear: () => dispatch({ type: "clear" }),
       drawerOpen,
@@ -52,7 +68,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       closeDrawer: () => setDrawerOpen(false),
       lastAdded,
     }),
-    [items, hydrated, drawerOpen, lastAdded],
+    [items, hydrated, drawerOpen, lastAdded, lastRemoved],
   )
 
   return <CartContext value={value}>{children}</CartContext>

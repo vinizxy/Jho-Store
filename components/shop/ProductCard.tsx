@@ -34,6 +34,7 @@ export function ProductCard({
         <ProductImage
           name={product.name}
           image={product.images[0]}
+          icon={product.icon}
           category={category}
           sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw"
           priority={priority}
