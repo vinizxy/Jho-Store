@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest"
 import data from "@/lib/catalog/data.json"
 import { catalog } from "@/lib/catalog"
-import { parseListParams } from "@/lib/catalog/params"
+import { listHref, parseListParams } from "@/lib/catalog/params"
 import { normalize, searchProducts } from "@/lib/catalog/search"
 import type { Category, Product } from "@/lib/catalog/types"
 import { pixPrice } from "@/lib/cart/pricing"
@@ -45,6 +45,12 @@ describe("parseListParams", () => {
       filter: "oferta",
       sort: "menor-preco",
     })
+  })
+
+  it("monta URLs de listagem sem valores vazios ou padrão", () => {
+    expect(listHref("/c/casa", { f: "oferta", ordem: "relevancia" })).toBe("/c/casa?f=oferta")
+    expect(listHref("/busca", { q: "pano de prato", ordem: "menor-preco" })).toBe("/busca?q=pano+de+prato&ordem=menor-preco")
+    expect(listHref("/c/casa", {})).toBe("/c/casa")
   })
 
   it("cai no padrão com valores inválidos ou repetidos", () => {
