@@ -1,0 +1,44 @@
+/* Fonte única de cores, bordas, sombras, raios e fontes da Jho Utilidades.
+   Nenhuma cor deve aparecer fora deste arquivo. */
+
+@theme {
+  /* Remove a paleta padrão do Tailwind: só as cores da marca existem. */
+  --color-*: initial;
+
+  --color-blue: #2c5aa0; /* primária: CTA, links, preço */
+  --color-ink: #1a1a1f; /* texto, bordas, sombra */
+  --color-cream: #fff1dc; /* fundo da página */
+  --color-sky: #a8dadc; /* apoio: chips ativos, faixas */
+  --color-white: #ffffff; /* superfícies */
+  --color-lemon: #ffd84d; /* acento raro: Pix e ofertas. Nunca como cor de texto. */
+  --color-muted: #4a4a55; /* texto secundário */
+
+  /* Tints de categoria (fundos de placeholder) */
+  --color-tint-sky: #cdebec;
+  --color-tint-lemon: #fff0b8;
+  --color-tint-blue50: #dce6f5;
+  --color-tint-cream-dark: #f6ddb8;
+
+  --shadow-brut: 4px 4px 0 var(--color-ink);
+  --shadow-brut-sm: 2px 2px 0 var(--color-ink);
+  --shadow-none: 0 0 0 transparent;
+
+  --radius-card: 12px;
+
+  --ease-brut: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@theme inline {
+  --font-display: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation: none !important;
+    scroll-behavior: auto !important;
+  }
+}

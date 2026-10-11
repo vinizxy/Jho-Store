@@ -1,0 +1,39 @@
+@import "tailwindcss";
+@import "../styles/tokens.css";
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    @apply bg-cream text-ink font-sans antialiased;
+  }
+  :focus-visible {
+    outline: 3px solid var(--color-blue);
+    outline-offset: 2px;
+  }
+  h1,
+  h2,
+  h3 {
+    @apply font-display text-balance;
+  }
+  [id] {
+    scroll-margin-top: 9rem;
+  }
+}
+
+@utility container-page {
+  @apply mx-auto w-full max-w-7xl px-4 md:px-6;
+}
+
+/* "Afunda": a sombra encolhe e o elemento desce o mesmo tanto. */
+@utility brut-press {
+  @apply shadow-brut transition-[translate,box-shadow] duration-150 ease-brut;
+  &:hover {
+    @apply translate-x-0.5 translate-y-0.5 shadow-brut-sm;
+  }
+  &:active {
+    @apply translate-x-1 translate-y-1 shadow-none;
+  }
+}
