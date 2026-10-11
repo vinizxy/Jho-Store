@@ -21,14 +21,18 @@ export function Breadcrumbs({ items, currentPath }: { items: Crumb[]; currentPat
       <JsonLd data={jsonLd} />
       <ol className="flex flex-wrap items-center gap-1 text-muted">
         {items.map((c, i) => (
-          <li key={c.name} className="flex items-center gap-1">
+          <li
+            key={c.name}
+            // no celular o item atual some quando há 3 níveis: o título da página já diz onde você está
+            className={`flex min-w-0 items-center gap-1 ${!c.href && items.length > 2 ? "max-sm:hidden" : ""}`}
+          >
             {i > 0 && <ChevronRight aria-hidden className="size-4" />}
             {c.href ? (
               <Link href={c.href} className="inline-block py-2 underline-offset-4 hover:text-blue hover:underline">
                 {c.name}
               </Link>
             ) : (
-              <span aria-current="page" className="line-clamp-1 py-2 font-semibold text-ink">
+              <span aria-current="page" className="truncate py-2 font-semibold text-ink">
                 {c.name}
               </span>
             )}

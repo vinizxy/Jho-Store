@@ -15,10 +15,10 @@ export function CartSummary() {
       <dd className="text-right tabular-nums">- {formatBRL(totals.pixDiscountCents)}</dd>
       <dt>Frete</dt>
       <dd className="text-right text-muted">calculado no checkout</dd>
-      <dt className="mt-2 border-t-2 border-ink pt-3 font-display text-lg font-extrabold">Total no Pix</dt>
-      <dd className="mt-2 border-t-2 border-ink pt-3 text-right font-display text-lg font-extrabold text-blue tabular-nums">
-        {formatBRL(totals.pixTotalCents)}
-      </dd>
+      <div className="col-span-2 mt-2 flex justify-between gap-4 border-t-2 border-ink pt-3 font-display text-lg font-extrabold">
+        <dt>Total no Pix</dt>
+        <dd className="text-blue tabular-nums">{formatBRL(totals.pixTotalCents)}</dd>
+      </div>
       <dd className="col-span-2 text-right text-xs text-muted">
         {n === 1
           ? `ou ${formatBRL(totals.subtotalCents)} no cartão`
