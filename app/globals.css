@@ -5,6 +5,13 @@
   html {
     scroll-behavior: smooth;
     -webkit-tap-highlight-color: transparent;
+    /* header fixo em cima e barra de navegação embaixo (mobile) não cobrem o que recebe foco/rolagem */
+    scroll-padding-top: 7rem;
+    scroll-padding-bottom: 6rem;
+    @variant md {
+      scroll-padding-top: 8rem;
+      scroll-padding-bottom: 0;
+    }
   }
   body {
     @apply bg-cream text-ink font-sans antialiased;
@@ -17,9 +24,6 @@
   h2,
   h3 {
     @apply font-display text-balance;
-  }
-  [id] {
-    scroll-margin-top: 9rem;
   }
 }
 

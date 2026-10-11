@@ -24,7 +24,8 @@ export const viewport: Viewport = { themeColor: "#FFFFFF" }
 export default async function RootLayout({ children }: LayoutProps<"/">) {
   const categories = await catalog.listCategories()
   return (
-    <html lang="pt-BR" className={`${display.variable} ${sans.variable}`}>
+    // data-scroll-behavior: o Next 16 desliga o smooth durante a navegação (troca de página começa no topo, instantânea)
+    <html lang="pt-BR" data-scroll-behavior="smooth" className={`${display.variable} ${sans.variable}`}>
       <body className="flex min-h-dvh flex-col">
         <CartProvider>
           <a

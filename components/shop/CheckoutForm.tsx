@@ -62,6 +62,7 @@ export function CheckoutForm() {
   const [payment, setPayment] = useState<"pix" | "cartao">("pix")
   const [cep, setCep] = useState("")
   const [phone, setPhone] = useState("")
+  const [uf, setUf] = useState("")
   const [order, setOrder] = useState<string | null>(null)
   const successRef = useRef<HTMLHeadingElement>(null)
 
@@ -101,11 +102,13 @@ export function CheckoutForm() {
     required: Boolean(FIELDS[name].required),
     "aria-invalid": errors[name] ? true : undefined,
     "aria-describedby": errors[name] ? `${name}-erro` : undefined,
-    onBlur: tried ? (e: { currentTarget: HTMLInputElement | HTMLSelectElement }) => revalidate(e.currentTarget) : undefined,
+    onInput: tried ? (e: { currentTarget: HTMLInputElement | HTMLSelectElement }) => revalidate(e.currentTarget) : undefined,
   })
 
+  // Enquanto digita, só APAGA o erro quando o campo fica válido. Erros novos só aparecem no envio:
+  // validar no blur mexia no layout no mousedown do botão e o clique em "Confirmar" se perdia.
   function revalidate(el: HTMLInputElement | HTMLSelectElement) {
-    setErrors((prev) => ({ ...prev, [el.name]: message(el) }))
+    if (!message(el)) setErrors((prev) => (prev[el.name] ? { ...prev, [el.name]: "" } : prev))
   }
 
   function onSubmit(e: FormEvent<HTMLFormElement>) {
@@ -233,7 +236,17 @@ export function CheckoutForm() {
               <input {...props("cidade")} autoComplete="address-level2" className={inputCls} />
             </Field>
             <Field def={FIELDS.uf} error={errors.uf}>
-              <select {...props("uf")} autoComplete="address-level1" defaultValue="" className={inputCls}>
+              {/* controlado: um <select> não controlado voltava para vazio quando o form re-renderizava */}
+              <select
+                {...props("uf")}
+                autoComplete="address-level1"
+                value={uf}
+                onChange={(e) => {
+                  setUf(e.target.value)
+                  if (tried) revalidate(e.target)
+                }}
+                className={inputCls}
+              >
                 <option value="" disabled>
                   UF
                 </option>
