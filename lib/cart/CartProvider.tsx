@@ -45,7 +45,10 @@ export function CartProvider({ children }: { children: ReactNode }) {
       setQty: (slug, qty) => dispatch({ type: "setQty", slug, qty }),
       clear: () => dispatch({ type: "clear" }),
       drawerOpen,
-      openDrawer: () => setDrawerOpen(true),
+      openDrawer: () => {
+        setLastAdded(null)
+        setDrawerOpen(true)
+      },
       closeDrawer: () => setDrawerOpen(false),
       lastAdded,
     }),
