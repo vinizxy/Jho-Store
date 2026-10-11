@@ -15,7 +15,7 @@ export function CartSummary() {
       <dd className="text-right tabular-nums">- {formatBRL(totals.pixDiscountCents)}</dd>
       <dt>Frete</dt>
       <dd className="text-right text-muted">calculado no checkout</dd>
-      <div className="col-span-2 mt-2 flex justify-between gap-4 border-t-2 border-ink pt-3 font-display text-lg font-extrabold">
+      <div className="col-span-2 mt-2 flex justify-between gap-4 border-t-2 border-ink pt-3 font-display text-lg font-bold">
         <dt>Total no Pix</dt>
         <dd className="text-blue tabular-nums">{formatBRL(totals.pixTotalCents)}</dd>
       </div>

@@ -34,13 +34,13 @@ async function Suggestions() {
   return (
     <>
       <section aria-labelledby="sug-cat" className="flex flex-col gap-4">
-        <h2 id="sug-cat" className="text-xl font-extrabold">
+        <h2 id="sug-cat" className="text-xl font-bold">
           Navegue por categoria
         </h2>
         <CategoryGrid categories={categories} variant="strip" />
       </section>
       <section aria-labelledby="sug-best" className="flex flex-col gap-4">
-        <h2 id="sug-best" className="text-xl font-extrabold">
+        <h2 id="sug-best" className="text-xl font-bold">
           Mais vendidos
         </h2>
         <ProductGrid products={best} categories={categories} />
@@ -82,7 +82,7 @@ async function SearchResults({ searchParams }: { searchParams: PageProps<"/busca
   return (
     <>
       {search}
-      <p className="text-2xl font-extrabold" aria-live="polite">
+      <p className="text-2xl font-bold" aria-live="polite">
         {products.length} {products.length === 1 ? "resultado" : "resultados"} para “{q}”
       </p>
       <ListToolbar basePath="/busca" q={q} filter={filter} sort={sort} />

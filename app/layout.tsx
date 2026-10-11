@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next"
-import { Bricolage_Grotesque, Inter } from "next/font/google"
+import { Fredoka, Inter } from "next/font/google"
 import { BottomNav } from "@/components/shop/BottomNav"
 import { CartDrawer } from "@/components/shop/CartDrawer"
 import { Footer } from "@/components/shop/Footer"
@@ -9,7 +9,8 @@ import { catalog } from "@/lib/catalog"
 import { BRAND, SITE_URL } from "@/lib/config"
 import "./globals.css"
 
-const display = Bricolage_Grotesque({ variable: "--font-bricolage", subsets: ["latin"] })
+// Fredoka: arredondada e pesada, a mais próxima do letreiro "Jho Store" da logo.
+const display = Fredoka({ variable: "--font-display-face", subsets: ["latin"] })
 const sans = Inter({ variable: "--font-inter", subsets: ["latin"] })
 
 export const metadata: Metadata = {

@@ -31,7 +31,7 @@ export function CartDrawer({ categories }: { categories: Category[] }) {
       className="cart-drawer fixed inset-y-0 right-0 left-auto m-0 h-dvh max-h-dvh w-full max-w-md border-l-2 border-ink bg-paper p-0 text-ink backdrop:bg-ink/40 open:flex open:flex-col"
     >
       <div className="flex items-center justify-between border-b-2 border-ink bg-white px-5 py-3">
-        <h2 id="cart-title" className="text-xl font-extrabold">
+        <h2 id="cart-title" className="text-xl font-bold">
           Seu carrinho {totals.count > 0 && <span className="text-muted">({totals.count})</span>}
         </h2>
         <button type="button" onClick={closeDrawer} aria-label="Fechar carrinho" className="-mr-2 grid size-11 place-items-center rounded-card hover:bg-paper">

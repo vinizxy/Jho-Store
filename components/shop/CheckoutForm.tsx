@@ -70,7 +70,7 @@ export function CheckoutForm() {
     return (
       <div className="flex flex-col items-center gap-4 py-10 text-center">
         <Mascot pose="success" className="h-48 w-auto" />
-        <h1 ref={successRef} tabIndex={-1} className="text-3xl font-extrabold md:text-4xl">
+        <h1 ref={successRef} tabIndex={-1} className="text-3xl font-bold md:text-4xl">
           Pedido recebido!
         </h1>
         <p className="text-lg">
@@ -160,7 +160,7 @@ export function CheckoutForm() {
         )}
         <dt>Frete</dt>
         <dd className="text-right text-muted">a calcular</dd>
-        <div className="col-span-2 mt-2 flex justify-between border-t-2 border-ink pt-3 font-display text-xl font-extrabold">
+        <div className="col-span-2 mt-2 flex justify-between border-t-2 border-ink pt-3 font-display text-xl font-bold">
           <dt>Total</dt>
           <dd className="text-blue tabular-nums">{formatBRL(total)}</dd>
         </div>
@@ -176,10 +176,10 @@ export function CheckoutForm() {
   return (
     <div className="grid gap-8 md:grid-cols-[1fr_360px] md:items-start md:gap-10">
       <form noValidate onSubmit={onSubmit} className="flex flex-col gap-8">
-        <h1 className="text-3xl font-extrabold md:text-4xl">Finalizar compra</h1>
+        <h1 className="text-3xl font-bold md:text-4xl">Finalizar compra</h1>
 
         <fieldset className="flex flex-col gap-4">
-          <legend className="mb-4 font-display text-xl font-extrabold">1. Seus dados</legend>
+          <legend className="mb-4 font-display text-xl font-bold">1. Seus dados</legend>
           <Field def={FIELDS.nome} error={errors.nome}>
             <input {...props("nome")} autoComplete="name" className={inputCls} />
           </Field>
@@ -203,7 +203,7 @@ export function CheckoutForm() {
         </fieldset>
 
         <fieldset className="flex flex-col gap-4">
-          <legend className="mb-4 font-display text-xl font-extrabold">2. Entrega</legend>
+          <legend className="mb-4 font-display text-xl font-bold">2. Entrega</legend>
           <Field def={FIELDS.cep} error={errors.cep} className="sm:max-w-48">
             <input
               {...props("cep")}
@@ -260,7 +260,7 @@ export function CheckoutForm() {
         </fieldset>
 
         <fieldset className="flex flex-col gap-3">
-          <legend className="mb-4 font-display text-xl font-extrabold">3. Pagamento</legend>
+          <legend className="mb-4 font-display text-xl font-bold">3. Pagamento</legend>
           <PayOption value="pix" checked={payment === "pix"} onSelect={setPayment} icon={<QrCode aria-hidden className="size-6" />}>
             <span className="flex flex-wrap items-center gap-2 font-semibold">
               Pix <Badge kind="pix">{Math.round(PIX_DISCOUNT * 100)}% off</Badge>
@@ -288,7 +288,7 @@ export function CheckoutForm() {
       </form>
 
       <aside aria-label="Resumo do pedido" className="hidden flex-col gap-4 rounded-card border-2 border-ink bg-white p-5 shadow-brut md:sticky md:top-32 md:flex">
-        <h2 className="text-xl font-extrabold">Resumo do pedido</h2>
+        <h2 className="text-xl font-bold">Resumo do pedido</h2>
         {summary}
       </aside>
     </div>

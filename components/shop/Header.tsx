@@ -1,3 +1,4 @@
+import Image from "next/image"
 import Link from "next/link"
 import { Mascot } from "@/components/ui/Mascot"
 import type { Category } from "@/lib/catalog/types"
@@ -5,16 +6,25 @@ import { BRAND } from "@/lib/config"
 import { CartButton } from "./CartButton"
 import { SearchBar } from "./SearchBar"
 
-// Como na arte da marca: "Jho" em preto e o resto em azul. Sobre fundo escuro: branco e azul-claro.
+// Fundo claro: a logo oficial (avatar no celular, para a busca caber).
+// Fundo escuro: avatar + nome em texto, "Jho" branco e o resto em azul-claro (a arte tem letras escuras).
 export function Logo({ tone = "default" }: { tone?: "default" | "light" }) {
   const [first, ...rest] = BRAND.name.split(" ")
-  const light = tone === "light"
+  const label = `${BRAND.name}, página inicial`
+  if (tone === "light") {
+    return (
+      <Link href="/" className="flex w-fit shrink-0 items-center gap-2 rounded-card" aria-label={label}>
+        <Mascot pose="avatar" className="size-11 rounded-full ring-2 ring-sky" />
+        <span aria-hidden className="font-display text-2xl leading-none font-bold text-white">
+          {first} <span className="text-sky">{rest.join(" ")}</span>
+        </span>
+      </Link>
+    )
+  }
   return (
-    <Link href="/" className="flex shrink-0 items-center gap-2 rounded-card" aria-label={`${BRAND.name}, página inicial`}>
-      <Mascot pose="avatar" className="size-10 rounded-full border-2 border-ink bg-ink" priority={!light} />
-      <span aria-hidden className={`hidden font-display text-xl leading-none font-extrabold tracking-tight sm:inline ${light ? "text-white" : ""}`}>
-        {first} <span className={light ? "text-sky" : "text-blue"}>{rest.join(" ")}</span>
-      </span>
+    <Link href="/" className="flex shrink-0 items-center rounded-card" aria-label={label}>
+      <Mascot pose="avatar" priority className="size-11 rounded-full sm:hidden" />
+      <Image src="/brand/logo.webp" alt="" width={613} height={218} priority className="hidden h-14 w-auto sm:block" />
     </Link>
   )
 }

@@ -1,5 +1,5 @@
 // Único lugar com valores de negócio. Mude aqui e o site inteiro acompanha.
-export const BRAND = { name: "Jho Utilidades", short: "Jho" } as const
+export const BRAND = { name: "Jho Store", short: "Jho" } as const
 
 export const PIX_DISCOUNT = 0.05 // 5%
 export const MAX_INSTALLMENTS = 6 // até 6x sem juros

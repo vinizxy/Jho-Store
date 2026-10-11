@@ -13,7 +13,7 @@ export function Price({ cents, compareAtCents, size = "sm" }: Props) {
           {formatBRL(compareAtCents)}
         </s>
       )}
-      <p className={`font-display font-extrabold text-blue ${lg ? "text-4xl" : "text-xl"}`}>
+      <p className={`font-display font-bold text-blue ${lg ? "text-4xl" : "text-xl"}`}>
         {formatBRL(pixPrice(cents))}
         <span className={`ml-1 font-sans font-semibold text-ink ${lg ? "text-base" : "text-xs"}`}>no Pix</span>
       </p>

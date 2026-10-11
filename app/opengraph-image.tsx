@@ -1,3 +1,5 @@
+import { readFile } from "node:fs/promises"
+import { join } from "node:path"
 import { ImageResponse } from "next/og"
 import { BRAND, MAX_INSTALLMENTS, PIX_DISCOUNT } from "@/lib/config"
 
@@ -8,20 +10,16 @@ export const contentType = "image/png"
 // ImageResponse não lê CSS: as cores repetem os tokens de styles/tokens.css.
 const ink = "#1A1A1F"
 const blue = "#2C5AA0"
-const paper = "#EEF2F8"
 const lemon = "#FFD84D"
 
-export default function OpengraphImage() {
-  const [first, ...rest] = BRAND.name.split(" ")
+export default async function OpengraphImage() {
+  const logo = `data:image/png;base64,${(await readFile(join(process.cwd(), "public/brand/logo.png"))).toString("base64")}`
   return new ImageResponse(
     (
-      <div style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-between", background: paper, padding: 72, color: ink }}>
-        <div style={{ display: "flex", fontSize: 96, fontWeight: 800, letterSpacing: -3 }}>
-          {first}&nbsp;<span style={{ color: blue }}>{rest.join(" ")}</span>
-        </div>
-        <div style={{ display: "flex", fontSize: 56, fontWeight: 700, maxWidth: 900, lineHeight: 1.1 }}>
-          Tudo pra sua casa, sem pesar no bolso.
-        </div>
+      <div style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-between", background: "#FFFFFF", borderBottom: `24px solid ${blue}`, padding: 64, color: ink }}>
+        {/* eslint-disable-next-line @next/next/no-img-element -- ImageResponse só aceita <img> */}
+        <img src={logo} alt="" width={613} height={218} />
+        <div style={{ display: "flex", fontSize: 60, fontWeight: 700, maxWidth: 1000, lineHeight: 1.1 }}>Tudo pra sua casa, sem pesar no bolso.</div>
         <div style={{ display: "flex", gap: 24 }}>
           {[`${Math.round(PIX_DISCOUNT * 100)}% off no Pix`, `Até ${MAX_INSTALLMENTS}x sem juros`].map((t, i) => (
             <div

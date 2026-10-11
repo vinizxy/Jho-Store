@@ -14,7 +14,7 @@ export function EmptyState({ title, text, action, pose = "empty", as: H = "h2", 
   return (
     <div className="flex flex-col items-center gap-4 py-10 text-center">
       <Mascot pose={pose} className="h-44 w-auto" />
-      <H className="text-2xl font-extrabold md:text-3xl">{title}</H>
+      <H className="text-2xl font-bold md:text-3xl">{title}</H>
       {text && <p className="max-w-[40ch] text-muted">{text}</p>}
       {children}
       {action}

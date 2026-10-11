@@ -1,6 +1,6 @@
-# Jho Utilidades — vitrine
+# Jho Store: vitrine
 
-Protótipo da loja online Jho Utilidades: home, categorias, busca, produto, carrinho e checkout de demonstração (sem pagamento real).
+Protótipo da loja online Jho Store: home, categorias, busca, produto, carrinho e checkout de demonstração (sem pagamento real).
 
 ## Como rodar
 
@@ -31,7 +31,7 @@ npm run dev                  # http://localhost:3000
 | Cores, bordas, sombras, fontes | `styles/tokens.css` |
 | Produtos e categorias (mock) | `lib/catalog/data.json` |
 | Fonte do catálogo (ex.: Supabase) | `lib/catalog/index.ts` |
-| Mascote | `public/mascote-*.svg` (mesmo nome de arquivo) |
+| Logo e mascote | troque `assets/marca/logo-jhostore.jpg` e rode `node scripts/brand-assets.mjs` (gera `public/brand/` e os ícones) |
 | Foto de um produto | campo `images` do produto no `data.json` |
 
 Documentação de design: `docs/superpowers/specs/`. Plano: `docs/superpowers/plans/`.

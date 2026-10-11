@@ -28,7 +28,7 @@ export function CartPageView({ categories }: { categories: Category[] }) {
   return (
     <div className="grid gap-6 md:grid-cols-[1fr_380px] md:items-start md:gap-10">
       <div>
-        <h1 className="text-3xl font-extrabold md:text-4xl">Seu carrinho</h1>
+        <h1 className="text-3xl font-bold md:text-4xl">Seu carrinho</h1>
         <ul className="mt-2 divide-y divide-ink/15">
           {items.map((item) => (
             <CartLine key={item.slug} item={item} category={bySlug.get(item.categorySlug)} />

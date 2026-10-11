@@ -5,7 +5,7 @@ import { BRAND, MAX_INSTALLMENTS, PIX_DISCOUNT, whatsappUrl } from "@/lib/config
 import { Logo } from "./Header"
 
 export function Footer({ categories }: { categories: Category[] }) {
-  const wa = whatsappUrl("Olá! Vim pelo site da Jho Utilidades.")
+  const wa = whatsappUrl(`Olá! Vim pelo site da ${BRAND.name}.`)
   return (
     <footer className="mt-16 bg-ink pb-16 text-white [--focus:var(--color-sky)] md:pb-0">
       <div className="container-page grid gap-10 py-12 md:grid-cols-[1.2fr_2fr_1.2fr]">

@@ -92,7 +92,7 @@ export default async function ProductPage({ params }: PageProps<"/p/[slug]">) {
               {product.badge && product.badge !== "oferta" && <Badge kind={product.badge} />}
             </div>
           )}
-          <h1 className="text-3xl leading-tight font-extrabold md:text-4xl">{product.name}</h1>
+          <h1 className="text-3xl leading-tight font-bold md:text-4xl">{product.name}</h1>
           <Price cents={product.priceCents} compareAtCents={product.compareAtCents} size="lg" />
           <p className="flex items-center gap-2 text-sm">
             <Truck aria-hidden className="size-5" />
@@ -107,7 +107,7 @@ export default async function ProductPage({ params }: PageProps<"/p/[slug]">) {
           )}
 
           <section aria-labelledby="sobre" className="flex flex-col gap-2 border-t-2 border-ink pt-5">
-            <h2 id="sobre" className="text-xl font-extrabold">
+            <h2 id="sobre" className="text-xl font-bold">
               Sobre o produto
             </h2>
             <p className="max-w-[65ch] leading-relaxed">{product.description}</p>
@@ -115,7 +115,7 @@ export default async function ProductPage({ params }: PageProps<"/p/[slug]">) {
 
           {product.specs.length > 0 && (
             <section aria-labelledby="detalhes" className="flex flex-col gap-3">
-              <h2 id="detalhes" className="text-xl font-extrabold">
+              <h2 id="detalhes" className="text-xl font-bold">
                 Detalhes
               </h2>
               <dl className="grid grid-cols-2 gap-3 sm:grid-cols-3">
@@ -132,7 +132,7 @@ export default async function ProductPage({ params }: PageProps<"/p/[slug]">) {
       </div>
 
       <section aria-labelledby="relacionados" className="flex flex-col gap-5 pt-10">
-        <h2 id="relacionados" className="text-2xl font-extrabold md:text-3xl">
+        <h2 id="relacionados" className="text-2xl font-bold md:text-3xl">
           Você também pode gostar
         </h2>
         <ProductGrid products={related} categories={categories} />

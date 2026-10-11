@@ -17,11 +17,11 @@ export default async function Home() {
 
   return (
     <>
-      <section className="border-b-2 border-ink bg-blue text-white [--focus:var(--color-white)]">
-        <div className="container-page grid items-center gap-6 py-8 md:grid-cols-[1.4fr_1fr] md:py-14">
+      <section className="overflow-hidden border-b-2 border-ink bg-blue text-white [--focus:var(--color-white)]">
+        <div className="container-page grid grid-cols-[1fr_auto] items-center gap-4 py-8 md:grid-cols-[1.4fr_1fr] md:gap-6 md:py-12">
           <div className="flex flex-col items-start gap-5">
             <Badge kind="pix">{Math.round(PIX_DISCOUNT * 100)}% off em tudo no Pix</Badge>
-            <h1 className="text-4xl leading-[1.05] font-extrabold tracking-tight md:text-6xl">
+            <h1 className="text-[2rem] leading-[1.05] font-bold tracking-tight sm:text-4xl md:text-6xl">
               Tudo pra sua casa, <span className="text-sky">sem pesar no bolso.</span>
             </h1>
             <p className="max-w-[40ch] text-lg">Cozinha, ferramentas, eletrônicos, pet e muito mais, com entrega pra todo o Brasil.</p>
@@ -29,7 +29,11 @@ export default async function Home() {
               Ver ofertas do dia
             </Button>
           </div>
-          <Mascot pose="hero" className="mx-auto hidden h-80 w-auto md:block" />
+          {/* Palco azul-claro: a camiseta azul do mascote sumiria sobre o fundo azul. */}
+          <div className="relative grid place-items-center justify-self-center">
+            <div aria-hidden className="absolute top-[55%] left-1/2 size-32 -translate-1/2 rounded-full border-2 border-ink bg-sky shadow-brut md:size-80" />
+            <Mascot pose="hero" priority className="relative h-48 w-auto md:h-[23rem]" />
+          </div>
         </div>
       </section>
 

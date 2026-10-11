@@ -42,7 +42,10 @@ Contas, avaliações, pagamento real, admin, Supabase, rastreio, marketplaces, f
 - Checkout: só tela, frete "a calcular, confirmamos pelo WhatsApp", pedido fictício `JHO-XXXXXX`.
 - `@types/node` 24 (Node 24) para compatibilidade com Vitest 5.
 - 2026-10-11 · Tema trocado de creme para azul e preto (pedido do Vinicius, com base no mascote oficial). Tokens: `cream`→`paper`, tint `creamDark`→`slate`.
-- Mascote/logo oficiais: arte recebida no chat; aguardando os arquivos. Hoje `public/mascote-*.svg` são placeholders.
+- Marca: **Jho Store** (é o que está na logo oficial). Arte original em `assets/marca/logo-jhostore.jpg`; `node scripts/brand-assets.mjs` recorta em `public/brand/` (mascote acenando, mascote com sacola, avatar, logo) e gera `app/icon.png` e `app/apple-icon.png`.
+- Uso do mascote: hero e pedido confirmado = acenando; carrinho vazio e 404 = sacola no ombro; header (celular) e rodapé = avatar. Header ≥ sm = logo oficial.
+- Hero: mascote sobre círculo azul-claro com borda e sombra (a camiseta azul sumia no fundo azul).
+- Fonte de títulos: **Fredoka** (arredondada, próxima do letreiro da logo); vai até peso 700, então títulos usam `font-bold`.
 - Produto: no mobile o único botão de compra é a BuyBar fixa (AddToCart só no desktop). Galeria com miniaturas fica para quando houver produto com mais de 1 foto.
 - Checkout: erros só aparecem no envio e somem ao corrigir (validar no blur fazia o clique em "Confirmar" se perder). `<select>` de UF é controlado.
 - `<html data-scroll-behavior="smooth">`: sem isso o Next 16 abria páginas no meio da rolagem.

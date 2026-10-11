@@ -8,6 +8,7 @@ import { ListToolbar } from "@/components/shop/ListToolbar"
 import { ProductGrid } from "@/components/shop/ProductGrid"
 import { Button } from "@/components/ui/Button"
 import { catalog } from "@/lib/catalog"
+import { BRAND } from "@/lib/config"
 import { parseListParams } from "@/lib/catalog/params"
 import type { Category } from "@/lib/catalog/types"
 
@@ -21,7 +22,7 @@ export async function generateMetadata({ params }: PageProps<"/c/[slug]">): Prom
   if (!category) return {}
   return {
     title: category.name,
-    description: `${category.name} com 5% de desconto no Pix e até 6x sem juros na Jho Utilidades.`,
+    description: `${category.name} com 5% de desconto no Pix e até 6x sem juros na ${BRAND.name}.`,
     alternates: { canonical: `/c/${slug}` },
   }
 }
@@ -34,7 +35,7 @@ export default async function CategoryPage({ params, searchParams }: PageProps<"
   return (
     <div className="container-page flex flex-col gap-4 py-4 md:py-8">
       <Breadcrumbs items={[{ name: "Início", href: "/" }, { name: category.name }]} currentPath={`/c/${slug}`} />
-      <h1 className="text-3xl font-extrabold md:text-5xl">{category.name}</h1>
+      <h1 className="text-3xl font-bold md:text-5xl">{category.name}</h1>
       <Suspense fallback={<GridSkeleton />}>
         <CategoryResults category={category} searchParams={searchParams} />
       </Suspense>
