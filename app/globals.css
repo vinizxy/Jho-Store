@@ -76,52 +76,15 @@
   }
 }
 
-/* Hero: uma única entrada coreografada (mascote sobe → balão salta → aceno → etiquetas).
-   Roda uma vez; prefers-reduced-motion zera (tokens.css). */
-@keyframes hero-rise {
-  from {
-    transform: translateY(18%);
-    opacity: 0;
-  }
-}
-@keyframes hero-hello {
-  0%,
-  100% {
-    rotate: 0deg;
-  }
-  30% {
-    rotate: -4deg;
-  }
-  65% {
-    rotate: 2.5deg;
-  }
-}
-@keyframes hero-pop {
-  from {
-    transform: scale(0.6) translateY(8px);
-    opacity: 0;
-  }
-}
+/* Hero: as ofertas caem uma vez; prefers-reduced-motion zera (tokens.css). */
 @keyframes hero-drop {
   from {
-    transform: translateY(-14px) scale(0.9);
+    transform: translateY(18px) scale(0.97);
     opacity: 0;
   }
 }
-.hero-mascot {
-  animation:
-    hero-rise 560ms var(--ease-brut) 80ms both,
-    hero-hello 700ms ease-in-out 700ms 1;
-}
-.hero-bubble {
-  transform-origin: 50% 100%;
-  @variant md {
-    transform-origin: 0% 100%;
-  }
-  animation: hero-pop 380ms cubic-bezier(0.22, 1, 0.36, 1) 480ms both;
-}
 .hero-sticker {
-  animation: hero-drop 360ms var(--ease-brut) both;
+  animation: hero-drop 700ms cubic-bezier(0.32, 0.72, 0, 1) both;
 }
 
 /* Fileira que rola de lado no celular: esmaece a borda direita para mostrar que tem mais. */

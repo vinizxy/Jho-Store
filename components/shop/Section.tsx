@@ -23,7 +23,8 @@ export function Section({
         </h2>
         {href && (
           <Link href={href} className="inline-flex min-h-11 shrink-0 items-center gap-1 text-sm font-semibold text-blue hover:underline">
-            {linkLabel}
+            <span className="sm:hidden">Ver todas</span>
+            <span className="hidden sm:inline">{linkLabel}</span>
             <ArrowRight aria-hidden className="size-4" />
           </Link>
         )}

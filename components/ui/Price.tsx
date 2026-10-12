@@ -23,7 +23,7 @@ export function Price({ cents, compareAtCents, size = "sm" }: Props) {
           ? `ou ${formatBRL(cents)} no cartão`
           : lg
             ? `ou ${formatBRL(cents)} em até ${n}x de ${formatBRL(valueCents)} sem juros`
-            : `ou ${n}x de ${formatBRL(valueCents)} sem juros`}
+            : `${n}x de ${formatBRL(valueCents)} sem juros`}
       </p>
     </div>
   )

@@ -1,58 +1,68 @@
 import Link from "next/link"
+import { ArrowRight } from "lucide-react"
 import { CatalogIcon } from "@/components/ui/CatalogIcon"
-import { Mascot } from "@/components/ui/Mascot"
 import { formatBRL, pixPrice } from "@/lib/cart/pricing"
 import type { Category, Product } from "@/lib/catalog/types"
 import { PIX_DISCOUNT } from "@/lib/config"
 import { tintBg } from "./ProductImage"
 
-// Palco do hero: o mascote na borda de baixo, falando com a pessoa, com ofertas reais "coladas" ao redor (desktop).
-// Uma entrada só (hero-* em globals.css), desligada por prefers-reduced-motion.
+// Lado direito do hero: 1 produto em destaque + 3 em lista. Hierarquia clara, uma entrada só (hero-drop).
 export function HeroStage({ deals, categories }: { deals: Product[]; categories: Category[] }) {
   const bySlug = new Map(categories.map((c) => [c.slug, c]))
   const off = Math.round(PIX_DISCOUNT * 100)
-  return (
-    // celular: mascote grande cortado na cintura pela borda de baixo · desktop: de corpo inteiro em pé na borda
-    <div className="relative flex h-56 items-start justify-end overflow-hidden md:h-full md:min-h-[28rem] md:items-end md:justify-center md:overflow-visible">
-      {/* O balão é posicionado em relação ao mascote, para ficar colado na cabeça em qualquer altura. */}
-      <div className="relative mr-1 w-fit md:mr-0">
-        {/* celular: à esquerda da cabeça · desktop: à direita (o lado esquerdo é a mão que acena) */}
-        <p className="hero-bubble absolute top-6 right-[94%] z-10 w-max max-w-[6.5rem] min-[360px]:max-w-[8rem] rounded-card border-2 border-ink bg-white px-3 py-1.5 text-xs leading-snug font-semibold text-ink shadow-brut-sm md:top-6 md:right-auto md:left-[72%] md:max-w-[13rem] md:px-4 md:py-3 md:text-base">
-          <span className="md:hidden">{off}% off no Pix!</span>
-          <span className="hidden md:inline">
-            Oi! Hoje tem <strong className="rounded bg-lemon px-1">{off}% off</strong> em tudo no Pix.
-          </span>
-          <span aria-hidden className="absolute top-3 -right-[9px] size-4 rotate-45 border-t-2 border-r-2 border-ink bg-white md:hidden" />
-          <span aria-hidden className="absolute bottom-3 -left-[9px] hidden size-4 rotate-45 border-b-2 border-l-2 border-ink bg-white md:block" />
-        </p>
-        <div className="hero-mascot origin-bottom">
-          <Mascot pose="hero" priority decorative={false} className="relative block h-auto w-44 min-[360px]:w-52 md:h-[25rem] md:w-auto" />
-        </div>
-      </div>
+  const [lead, ...rest] = deals.slice(0, 4)
+  if (!lead) return null
 
-      {/* etiquetas de oferta reais (desktop) */}
-      {deals.slice(0, 2).map((p, i) => {
-        const cat = bySlug.get(p.categorySlug)
-        return (
-          <Link
-            key={p.slug}
-            href={`/p/${p.slug}`}
-            style={{ animationDelay: `${700 + i * 120}ms` }}
-            className={`hero-sticker brut-press absolute z-10 hidden w-44 items-center gap-2 rounded-card border-2 border-ink bg-white p-2 text-ink lg:flex ${
-              i === 0 ? "bottom-16 -left-4 -rotate-6" : "right-0 bottom-28 rotate-6"
-            }`}
-          >
-            <span className={`grid size-10 shrink-0 place-items-center rounded-lg ${cat ? tintBg[cat.tint] : "bg-tint-sky"}`}>
-              {(p.icon ?? cat?.icon) && <CatalogIcon name={(p.icon ?? cat?.icon)!} className="size-5" />}
-            </span>
-            <span className="min-w-0 leading-tight">
-              <span className="block truncate text-xs font-semibold">{p.name}</span>
-              <span className="font-display text-base font-bold text-blue">{formatBRL(pixPrice(p.priceCents))}</span>
-              <span className="text-[11px] font-semibold"> no Pix</span>
-            </span>
-          </Link>
-        )
-      })}
+  const tile = (p: Product) => {
+    const cat = bySlug.get(p.categorySlug)
+    const icon = p.icon ?? cat?.icon
+    return { cls: cat ? tintBg[cat.tint] : "bg-tint-sky", icon }
+  }
+  const leadTile = tile(lead)
+
+  return (
+    <div className="flex flex-col gap-3 pt-6 pb-7 md:py-24">
+      <Link
+        href={`/p/${lead.slug}`}
+        style={{ animationDelay: "60ms" }}
+        className="hero-sticker brut-press relative flex items-center gap-4 rounded-card border-2 border-ink bg-white p-4 text-ink md:flex-col md:items-stretch md:gap-3 md:p-5"
+      >
+        <span className="absolute -top-3 right-3 rounded-lg border-2 border-ink bg-lemon px-2 py-0.5 font-display text-sm font-bold shadow-brut-sm">
+          {off}% off no Pix
+        </span>
+        <span className={`grid size-20 shrink-0 place-items-center rounded-xl md:h-32 md:w-full ${leadTile.cls}`}>
+          {leadTile.icon && <CatalogIcon name={leadTile.icon} className="size-9 md:size-14" />}
+        </span>
+        <span className="min-w-0 leading-tight">
+          <span className="line-clamp-2 block text-base font-semibold md:text-lg">{lead.name}</span>
+          <span className="mt-1 flex items-baseline gap-1.5">
+            <span className="font-display text-2xl font-bold text-blue md:text-3xl">{formatBRL(pixPrice(lead.priceCents))}</span>
+            <span className="text-xs font-semibold">no Pix</span>
+          </span>
+        </span>
+      </Link>
+
+      <ul className="flex flex-col gap-2">
+        {rest.map((p, i) => {
+          const t = tile(p)
+          return (
+            <li key={p.slug}>
+              <Link
+                href={`/p/${p.slug}`}
+                style={{ animationDelay: `${140 + i * 90}ms` }}
+                className="hero-sticker brut-press flex items-center gap-3 rounded-card border-2 border-ink bg-white p-2 pr-3 text-ink"
+              >
+                <span className={`grid size-10 shrink-0 place-items-center rounded-lg ${t.cls}`}>
+                  {t.icon && <CatalogIcon name={t.icon} className="size-5" />}
+                </span>
+                <span className="min-w-0 flex-1 truncate text-sm font-semibold">{p.name}</span>
+                <span className="font-display text-base font-bold text-blue">{formatBRL(pixPrice(p.priceCents))}</span>
+                <ArrowRight aria-hidden className="size-4 shrink-0" />
+              </Link>
+            </li>
+          )
+        })}
+      </ul>
     </div>
   )
 }

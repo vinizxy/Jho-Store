@@ -13,6 +13,7 @@ export function ProductCard({
   priority,
   titleAs: Title = "h3",
   hideBadge,
+  featured,
 }: {
   product: Product
   category?: Category
@@ -21,6 +22,8 @@ export function ProductCard({
   titleAs?: HeadingTag
   /** Selo redundante no contexto (ex.: "Mais vendido" dentro de "Mais vendidos"). */
   hideBadge?: Product["badge"]
+  /** Destaque da grade: ocupa 2 colunas; no celular a imagem fica mais baixa. */
+  featured?: boolean
 }) {
   const off = product.compareAtCents ? discountPercent(product.priceCents, product.compareAtCents) : 0
   // No máximo 1 selo por card; desconto tem prioridade.
@@ -36,7 +39,8 @@ export function ProductCard({
           image={product.images[0]}
           icon={product.icon}
           category={category}
-          sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw"
+          sizes={featured ? "(min-width: 1024px) 50vw, 100vw" : "(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw"}
+          className={featured ? "max-md:aspect-[2/1]" : ""}
           priority={priority}
         />
         <div className="absolute top-2 left-2">
@@ -45,11 +49,13 @@ export function ProductCard({
         </div>
       </div>
       <div className="flex flex-1 flex-col gap-2 p-3 md:p-4">
-        <Title className="line-clamp-2 min-h-[2lh] font-sans text-sm leading-snug font-semibold group-hover:text-blue md:text-base">
+        <Title
+          className={`font-sans leading-snug font-semibold group-hover:text-blue ${featured ? "line-clamp-2 text-base md:text-xl" : "line-clamp-3 min-h-[3lh] text-sm md:line-clamp-2 md:min-h-[2lh] md:text-base"}`}
+        >
           {product.name}
         </Title>
         <div className="mt-auto">
-          <Price cents={product.priceCents} compareAtCents={product.compareAtCents} />
+          <Price cents={product.priceCents} />
         </div>
       </div>
     </Link>
