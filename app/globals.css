@@ -76,7 +76,7 @@
   }
 }
 
-/* Hero: uma única entrada coreografada (palco → mascote sobe → balão salta → aceno → etiquetas).
+/* Hero: uma única entrada coreografada (mascote sobe → balão salta → aceno → etiquetas).
    Roda uma vez; prefers-reduced-motion zera (tokens.css). */
 @keyframes hero-rise {
   from {
@@ -107,15 +107,6 @@
     transform: translateY(-14px) scale(0.9);
     opacity: 0;
   }
-}
-@keyframes hero-grow {
-  from {
-    scale: 0.85;
-    opacity: 0;
-  }
-}
-.hero-stage {
-  animation: hero-grow 520ms var(--ease-brut) both;
 }
 .hero-mascot {
   animation:
